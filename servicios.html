@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos esenciales para SEO y correcta visualización -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página web profesional de [Tu Nombre], freelancer especializado en automatización de procesos, desarrollo y administración de páginas web. ¡Impulsa tu negocio hoy!">
+    
+    <!-- Título de la pestaña del navegador -->
+    <title>[Tu Nombre] - Freelancer | Automatización y Desarrollo Web</title>
+
+    <!-- Google Fonts: Tipografía moderna y profesional -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome: Iconos para redes sociales y servicios -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+    <!-- Enlace al archivo CSS para los estilos -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ==========================================
+         ENCABEZADO Y NAVEGACIÓN
+         ========================================== -->
+    <header id="header">
+        <nav class="navbar container">
+            <!-- LOGO: Reemplaza "[Tu Nombre]" con tu nombre o marca -->
+            <div class="logo"><a href="#inicio">[Tu Nombre]</a></div>
+            
+            <!-- MENÚ DE NAVEGACIÓN: Los enlaces deslizan suavemente a cada sección -->
+            <ul class="nav-menu">
+                <li><a href="inicio.html" class="nav-link">Inicio</a></li>
+                <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+                <li><a href="portafolio.html" class="nav-link">Portafolio</a></li>
+                <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+            </ul>
+
+            <!-- MENÚ HAMBURGUESA (Para móviles) -->
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    <br>
+    <main>
+    <!-- ==========================================
+             SECCIÓN DE SERVICIOS
+             ========================================== -->
+        <section id="servicios">
+            <div class="container">
+                    <h2 class="section-title">Mis Servicios</h2>
+                    <div class="services-grid">
+                        <!-- TARJETA DE SERVICIO 1 -->
+                        <div class="service-card">
+                            <i class="fas fa-robot service-icon"></i>
+                            <h3>Automatización de Procesos</h3>
+                            <p>Integramos herramientas como Zapier o Make para conectar tus aplicaciones, automatizar tareas repetitivas (envío de correos, gestión de leads, etc.) y optimizar tu flujo de trabajo.</p>
+                        </div>
+                        <!-- TARJETA DE SERVICIO 2 -->
+                        <div class="service-card">
+                            <i class="fas fa-code service-icon"></i>
+                            <h3>Desarrollo Web a Medida</h3>
+                            <p>Diseño y desarrollo de páginas web profesionales, rápidas y seguras con las últimas tecnologías. Enfocadas en una excelente experiencia de usuario (UX) y optimizadas para motores de búsqueda (SEO).</p>
+                        </div>
+                        <!-- TARJETA DE SERVICIO 3 -->
+                        <div class="service-card">
+                            <i class="fas fa-cogs service-icon"></i>
+                            <h3>Administración de Sitios Web</h3>
+                            <p>Me encargo del mantenimiento, actualización de contenido, gestión de seguridad y mejoras de rendimiento de tu sitio web para que siempre esté operativo y al día, mientras tú te enfocas en tu negocio.</p>
+                        </div>
+                        <!-- 
+                            PARA AÑADIR MÁS SERVICIOS:
+                            Simplemente copia y pega un bloque <div class="service-card">...</div> completo aquí.
+                            No olvides cambiar el icono (clase de Font Awesome), el título <h3> y el párrafo <p>.
+                        -->
+                    </div>
+            </div>
+        </section>
+    </main>
+    <br>
+    <br>
+    <br>
+       <!-- ==========================================
+         PIE DE PÁGINA (FOOTER)
+         ========================================== -->
+    <footer>
+        <div class="container">
+            <!-- REDES SOCIALES: Reemplaza '#' con tus enlaces -->
+            <div class="social-links">
+                <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p>&copy; 2024 [Tu Nombre]. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Enlace al archivo JavaScript para la interactividad. 'defer' asegura que el script se ejecute después de que el HTML se haya cargado. -->
+    <script src="script.js" defer></script>
+</body>
+</html>

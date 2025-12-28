@@ -1,0 +1,97 @@
+// Espera a que todo el contenido de la página se cargue
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- MENÚ DE NAVEGACIÓN MÓVIL ---
+    const hamburger = document.querySelector(".hamburger");
+    const navMenu = document.querySelector(".nav-menu");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    // Al hacer clic en el ícono de hamburguesa, alterna la clase 'active' para mostrar/ocultar el menú
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("active");
+    });
+
+    // Al hacer clic en un enlace del menú, se cierra el menú móvil
+    navLinks.forEach(link => link.addEventListener("click", () => {
+        hamburger.classList.remove("active");
+        navMenu.classList.remove("active");
+    }));
+
+
+    // --- CAMBIO DE ESTILO DEL HEADER AL HACER SCROLL ---
+    const header = document.querySelector("header");
+
+    window.addEventListener("scroll", () => {
+        // Si la posición de scroll es mayor a 50px, añade la clase 'scrolled' al header
+        if (window.scrollY > 50) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+    });
+
+
+    // --- MANEJO DEL FORMULARIO DE CONTACTO ---
+    const contactForm = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+
+    if (contactForm) { // Verificamos que el formulario exista para evitar errores
+        contactForm.addEventListener('submit', function(event) {
+            // Previene el envío tradicional del formulario para manejarlo con JavaScript
+            event.preventDefault(); 
+
+            // Obtiene los valores de los campos del formulario
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            // --- VALIDACIÓN BÁSICA ---
+            if (name === '' || email === '' || message === '') {
+                showMessage('Por favor, completa todos los campos obligatorios.', 'error');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                showMessage('Por favor, introduce un correo electrónico válido.', 'error');
+                return;
+            }
+
+            // Si la validación es exitosa
+            showMessage('¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.', 'success');
+            
+            // Limpia los campos del formulario
+            contactForm.reset();
+
+            // --- ¡IMPORTANTE! ---
+            // Este código NO envía el correo realmente. Solo simula el envío.
+            // Para que el formulario funcione, necesitas un servicio backend.
+            // La forma más fácil es usar Formspree:
+            // 1. Ve a https://formspree.io/, regístrate y crea un nuevo formulario.
+            // 2. Te darán una URL (p. ej. https://formspree.io/f/xyzabcd).
+            // 3. En tu archivo index.html, busca la etiqueta <form> y añade el atributo 'action' y 'method':
+            //    <form class="contact-form" id="contact-form" action="https://formspree.io/f/TU_URL_DE_FORMSPREE" method="POST">
+            // ¡Y listo! Los mensajes llegarán a tu correo.
+        });
+    }
+
+    // Función para mostrar mensajes de éxito o error
+    function showMessage(text, type) {
+        formMessage.textContent = text;
+        formMessage.className = type; // Añade la clase 'success' o 'error'
+        
+        // Oculta el mensaje después de 5 segundos
+        setTimeout(() => {
+            formMessage.textContent = '';
+            formMessage.className = '';
+        }, 5000);
+    }
+
+    // Función simple para validar el formato del email
+    function isValidEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+});
