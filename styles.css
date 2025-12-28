@@ -43,6 +43,7 @@ h1, h2, h3 {
 
 a {
     color: var(--color-texto-principal);
+    text-decoration: none;
     font-size: 2rem;
     font-weight: 600;
     text-shadow:
@@ -480,6 +481,7 @@ footer p {
    height: 100%;
    object-fit: contain;
 }
+
 
 
 
