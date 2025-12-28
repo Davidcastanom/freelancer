@@ -2,7 +2,7 @@
    Puedes cambiar estos valores para personalizar todo el sitio fácilmente.
 */
 :root {
-    --color-primario: #007BFF; /* Azul brillante para botones y acentos */
+    --color-primario: #004E94; /* Azul brillante para botones y acentos */
     --color-secundario: #0056b3; /* Un azul más oscuro para efectos hover */
     --color-fondo: #121212; /* Fondo oscuro elegante */
     --color-superficie: #1e1e1e; /* Color para tarjetas y secciones */
@@ -469,10 +469,10 @@ footer p {
 }
 
 .logo-circular img {
-   width: 90%;
-   height: 90%;
+   width: 100%;
+   height: 100%;
    object-fit: contain;
-   padding: 4px;
 }
+
 
 
