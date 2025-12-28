@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             // --- ENVÍO REAL DEL FORMULARIO A MAKE ---
-            fetch("https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb", {
-            method: "POST",
-            headers: {
-             "Content-Type": "application/json"
+        fetch("https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 name: name,
@@ -119,3 +119,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
