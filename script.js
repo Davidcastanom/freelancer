@@ -30,8 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
             header.classList.remove("scrolled");
         }
     });
-
-
     // --- MANEJO DEL FORMULARIO DE CONTACTO ---
     const contactForm = document.getElementById('contact-form');
     const formMessage = document.getElementById('form-message');
@@ -40,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         contactForm.addEventListener('submit', function(event) {
             // Previene el envío tradicional del formulario para manejarlo con JavaScript
             event.preventDefault(); 
-
+            
             // Obtiene los valores de los campos del formulario
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -58,17 +56,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             // --- ENVÍO REAL DEL FORMULARIO A MAKE ---
-        fetch("https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb", {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                phone: phone,
-                message: message
-            })
+            fetch("https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    message: message
+                })
             })
             .then(response => {
                 if (!response.ok) throw new Error("Error en el envío");
@@ -76,26 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 showMessage('¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.', 'success');
                 contactForm.reset();
             })
-                .catch(error => {
+            .catch(error => {
                 console.error(error);
                 showMessage('Hubo un error al enviar el mensaje. Intenta más tarde.', 'error');
             });
-
-            // Si la validación es exitosa
-            showMessage('¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.', 'success');
-            
-            // Limpia los campos del formulario
-            contactForm.reset();
-
-            // --- ¡IMPORTANTE! ---
-            // Este código NO envía el correo realmente. Solo simula el envío.
-            // Para que el formulario funcione, necesitas un servicio backend.
-            // La forma más fácil es usar Formspree:
-            // 1. Ve a https://formspree.io/, regístrate y crea un nuevo formulario.
-            // 2. Te darán una URL (p. ej. https://formspree.io/f/xyzabcd).
-            // 3. En tu archivo index.html, busca la etiqueta <form> y añade el atributo 'action' y 'method':
-            //    <form class="contact-form" id="contact-form" action="https://formspree.io/f/TU_URL_DE_FORMSPREE" method="POST">
-            // ¡Y listo! Los mensajes llegarán a tu correo.
         });
     }
 
@@ -119,4 +101,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
 
