@@ -3,7 +3,7 @@
 */
 :root {
     --color-primario: #28AAED; /* Azul brillante para botones y acentos */
-    --color-secundario: #0056b3; /* Un azul más oscuro para efectos hover */
+    --color-secundario: #27ABF2; /* Un azul más oscuro para efectos hover */
     --color-fondo: #121212; /* Fondo oscuro elegante */
     --color-superficie: #1e1e1e; /* Color para tarjetas y secciones */
     --color-texto-principal: #f0f0f0; /* Texto claro sobre fondo oscuro */
@@ -473,6 +473,7 @@ footer p {
    height: 100%;
    object-fit: contain;
 }
+
 
 
 
