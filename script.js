@@ -57,6 +57,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 showMessage('Por favor, introduce un correo electrónico válido.', 'error');
                 return;
             }
+            // --- ENVÍO REAL DEL FORMULARIO A MAKE ---
+            fetch("https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb", {
+            method: "POST",
+            headers: {
+             "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                phone: phone,
+                message: message
+            })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Error en el envío");
+    
+                showMessage('¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.', 'success');
+                contactForm.reset();
+            })
+                .catch(error => {
+                console.error(error);
+                showMessage('Hubo un error al enviar el mensaje. Intenta más tarde.', 'error');
+            });
 
             // Si la validación es exitosa
             showMessage('¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.', 'success');
@@ -93,5 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
+
 
 });
