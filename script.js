@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             // --- ENVÍO REAL DEL FORMULARIO A MAKE ---
-            fetch("https://hook.us2.make.com/ku4bu41kfr4yvs4rv4aa3l18ahbucbqt", {
+            fetch("https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
 
 
 
