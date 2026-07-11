@@ -4,38 +4,50 @@
     <!-- Metadatos esenciales para SEO y correcta visualización -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página web profesional de [Tu Nombre], freelancer especializado en automatización de procesos, desarrollo y administración de páginas web. ¡Impulsa tu negocio hoy!">
-    
+    <meta name="description" content="David Castaño — Flujo Base. Ponte en contacto para automatizar tu negocio, desarrollar tu página web o administrar tu sitio.">
+    <meta name="author" content="David Castaño">
+
+    <!-- Open Graph: metadata para compartir en redes sociales -->
+    <meta property="og:title" content="Contacto | Flujo Base">
+    <meta property="og:description" content="Envíame un mensaje y te ayudaré a impulsar tu negocio con soluciones web a medida.">
+    <meta property="og:image" content="assets/img/Logo FLUJO BASE profesional_2.png">
+    <meta property="og:url" content="https://davidcastanom.github.io/freelancer/contacto.html">
+    <meta property="og:type" content="website">
+
     <!-- Título de la pestaña del navegador -->
-    <title> Flujo Base | Automatización y Desarrollo Web</title>
+    <title>Contacto | Flujo Base</title>
     <link rel="icon" href="assets/img/favicon1.png" type="image/png">
+
     <!-- Google Fonts: Tipografía moderna y profesional -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- Font Awesome: Iconos para redes sociales y servicios -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
     <!-- Enlace al archivo CSS para los estilos -->
     <link rel="stylesheet" href="styles.css">
 </head>
-    <body>
+<body>
+
     <!-- ==========================================
          ENCABEZADO Y NAVEGACIÓN
          ========================================== -->
     <header id="header">
         <nav class="navbar container">
-            <!-- LOGO: Reemplaza "[Tu Nombre]" con tu nombre o marca -->
-             <div class="logo-circular">
-            <img src="./assets/img/Logo FLUJO BASE profesional_2.png" alt="logotipo de emprendimiento">
+            <div class="logo-circular">
+                <img src="assets/img/Logo FLUJO BASE profesional_2.png" alt="Logo de Flujo Base">
             </div> 
-            <div class="logo"><a href="https://davidcastanom.github.io/freelancer/">Flujo Base</a></div>
-            <!-- MENÚ DE NAVEGACIÓN: Los enlaces deslizan suavemente a cada sección -->
+            <div class="logo"><a href="index.html">Flujo Base</a></div>
+            <!-- MENÚ DE NAVEGACIÓN -->
             <ul class="nav-menu">
-                <li><a href="https://davidcastanom.github.io/freelancer/" class="nav-link">Inicio</a></li>
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
                 <li><a href="servicios.html" class="nav-link">Servicios</a></li>
                 <li><a href="portafolio.html" class="nav-link">Portafolio</a></li>
-                <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+                <li><a href="contacto.html" class="nav-link active">Contacto</a></li>
             </ul>
+
             <!-- MENÚ HAMBURGUESA (Para móviles) -->
             <div class="hamburger">
                 <span class="bar"></span>
@@ -44,7 +56,8 @@
             </div>
         </nav>
     </header>
-    <main>
+
+    <main class="section-spacing">
      <!-- ==========================================
              SECCIÓN DE CONTACTO
              ========================================== -->
@@ -57,19 +70,22 @@
                             <p>Envíame un mensaje y te responderé a la brevedad para discutir cómo puedo ayudarte a alcanzar tus objetivos.</p> 
                             <div class="info-item">
                                 <i class="fas fa-envelope"></i>
-                                <span>solucionesdigitales@gmail.com</span> <!-- REEMPLAZA CON TU EMAIL -->
+                                <span>solucionesdigitales@gmail.com</span>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-phone"></i>
-                                <span>+57 301 684 4364</span> <!-- REEMPLAZA CON TU TELÉFONO -->
+                                <span>+57 301 684 4364</span>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-map-marker-alt"></i>
-                                <span>Medellín, Colombia</span> <!-- REEMPLAZA CON TU UBICACIÓN -->
+                                <span>Medellín, Colombia</span>
                             </div>
                         </div>
-                        <!-- FORMULARIO DE CONTACTO -->
-                        <!-- IMPORTANTE: Añade el atributo 'action' con tu URL de Formspree (u otro servicio) para que funcione. Ej: action="https://formspree.io/f/tu-form-id" -->
+                        <!-- FORMULARIO DE CONTACTO
+                             El formulario envía los datos a un webhook de Make (Integromat).
+                             Si necesitas cambiar el destino, actualiza la URL en el atributo 'action'
+                             y también en script.js (busca la función fetch).
+                        -->
                         <form class="contact-form" id="contact-form" action="https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb" method="POST">
                             <div class="form-group">
                                 <label for="name">Nombre Completo</label>
@@ -87,41 +103,32 @@
                                 <label for="message">Mensaje</label>
                                 <textarea id="message" name="message" required></textarea>
                             </div>
-                            <button type="submit" class="btn">Enviar Mensaje</button>
-                            <div id="form-message"></div> <!-- Aquí se mostrarán los mensajes de éxito o error -->
+                            <button type="submit" class="btn" id="submit-btn">Enviar Mensaje</button>
+                            <div id="form-message"></div>
                         </form>
                     </div>
                 </div>
             </section>
     </main>
+
     <!-- ==========================================
          PIE DE PÁGINA (FOOTER)
          ========================================== -->
     <footer>
-            <div class="container">
-                <!-- REDES SOCIALES: Reemplaza '#' con tus enlaces -->
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/david-esteban-castaño-meneses-62a30a350/?skipRedirect=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://github.com/Davidcastanom" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.facebook.com/profile.php?id=61591989834382" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="https://www.instagram.com/flujobase.digital?igsh=MTdyeTFla3ozbnduMg==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
-                <p>&copy; 2024 David Castaño. Todos los derechos reservados.</p>
+        <div class="container">
+            <!-- REDES SOCIALES: Actualiza los href con tus enlaces reales -->
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/david-esteban-castaño-meneses-62a30a350/?skipRedirect=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/Davidcastanom" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61591989834382" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/flujobase.digital?igsh=MTdyeTFla3ozbnduMg==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
+            <p>&copy; <span class="copyright-year"></span> David Castaño. Todos los derechos reservados.</p>
+        </div>
     </footer>
     
-        <!-- Enlace al archivo JavaScript para la interactividad. 'defer' asegura que el script se ejecute después de que el HTML se haya cargado. -->
-        <script src="script.js" defer></script>
-    </body>
+    <!-- Enlace al archivo JavaScript -->
+    <script src="script.js" defer></script>
+</body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
