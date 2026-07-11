@@ -424,6 +424,8 @@ footer p {
         transition: 0.3s;
         box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
         padding: 2rem 0;
+        visibility: hidden;  /* Hace que el menú no bloquee los clics de la pantalla */
+        pointer-events: none; /* Desactiva cualquier interacción del mouse/dedo */
     }
 
     .nav-menu.active {
