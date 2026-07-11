@@ -3,72 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto | Flujo Base</title>
-    <meta name="description" content="Contáctanos en Flujo Base. Cuéntanos sobre tu proyecto y te ayudaremos a transformar tus procesos con inteligencia artificial y automatización.">
-    <meta name="keywords" content="contacto, flujo base, inteligencia artificial, automatización, consultoría digital">
+    <meta name="description" content="Flujo Base — Contáctanos. Cuéntanos sobre tu proyecto y te ayudaremos a transformar tus procesos con IA y automatización.">
     <meta name="author" content="Flujo Base">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
     <meta property="og:title" content="Contacto | Flujo Base">
-    <meta property="og:description" content="Contáctanos en Flujo Base. Cuéntanos sobre tu proyecto y te ayudaremos a transformar tus procesos con inteligencia artificial y automatización.">
-    <meta property="og:type" content="website">
+    <meta property="og:description" content="Contáctanos en Flujo Base. Cuéntanos sobre tu proyecto y te ayudaremos a transformar tus procesos con IA y automatización.">
+    <meta property="og:image" content="assets/img/Logo FLUJO BASE profesional_2.png">
     <meta property="og:url" content="https://davidcastanom.github.io/freelancer/contacto.html">
-    <meta property="og:locale" content="es_CO">
-
-    <!-- Google Fonts -->
+    <meta property="og:type" content="website">
+    <title>Contacto | Flujo Base</title>
+    <link rel="icon" href="assets/img/favicon1.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <a href="index.html" class="logo">
-                    <span class="logo-text">Flujo <span class="logo-accent">Base</span></span>
-                </a>
-                <button class="nav-toggle" aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <ul class="nav-menu">
-                    <li><a href="index.html" class="nav-link">Inicio</a></li>
-                    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
-                    <li><a href="casos-de-exito.html" class="nav-link">Casos de Éxito</a></li>
-                    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
-                    <li><a href="blog.html" class="nav-link">Blog</a></li>
-                    <li><a href="contacto.html" class="nav-link active">Contacto</a></li>
-                </ul>
+    <header id="header">
+        <nav class="navbar container">
+            <div class="logo-circular">
+                <img src="assets/img/Logo FLUJO BASE profesional_2.png" alt="Logo de Flujo Base">
+            </div> 
+            <div class="logo"><a href="index.html">Flujo Base</a></div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+                <li><a href="casos-exito.html" class="nav-link">Casos de Éxito</a></li>
+                <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="contacto.html" class="nav-link active">Contacto</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
             </div>
         </nav>
     </header>
 
-    <!-- Main Content -->
-    <main>
-        <section class="section-spacing">
+    <main class="section-spacing">
+        <section id="contacto">
             <div class="container">
-                <div class="section-header fade-in">
-                    <h2 class="section-title">Hablemos de Tu Proyecto</h2>
-                    <p class="section-subtitle">Transformamos procesos y potenciamos resultados. Cuéntanos tu idea y te ayudaremos a convertirla en una solución real que impulse tu negocio al siguiente nivel.</p>
-                </div>
+                <h2 class="section-title">Hablemos de Tu Proyecto</h2>
+                <p class="section-subtitle">Transformamos procesos y potenciamos resultados. Cuéntanos tu idea y te ayudaremos a convertirla en una solución real.</p>
 
-                <div class="contact-grid fade-in">
+                <div class="contact-grid">
                     <!-- ==========================================
-                         LEFT COLUMN: INFORMACIÓN DE CONTACTO
+                         COLUMNA IZQUIERDA: INFORMACIÓN DE CONTACTO
                          ==========================================
                          ✋ CAMBIOS MANUALES QUE DEBES HACER:
                          1. Email: cambia "flujobase.digital@gmail.com" por tu email real
                          2. WhatsApp: cambia "573001234567" por tu número real
                             (formato: código país + número sin espacios ni guiones)
-                         3. El webhook del formulario ya está configurado apuntando a Make
                          ========================================== -->
                     <div class="contact-info">
                         <h3>Información de Contacto</h3>
@@ -109,10 +96,15 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: Contact Form -->
+                    <!-- ==========================================
+                         COLUMNA DERECHA: FORMULARIO
+                         ==========================================
+                         El formulario envía a FormSubmit.co que redirige a tu email.
+                         También envía datos a Make vía script.js (webhook).
+                         ========================================== -->
                     <div class="contact-form-wrap">
                         <h3>Envíanos un Mensaje</h3>
-                        <form action="https://formsubmit.co/flujobase.digital@gmail.com" method="POST">
+                        <form id="contact-form" action="https://formsubmit.co/flujobase.digital@gmail.com" method="POST">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="name">Nombre Completo</label>
@@ -158,8 +150,10 @@
                             <input type="hidden" name="_next" value="https://davidcastanom.github.io/freelancer/contacto.html#exito">
                             <input type="hidden" name="_captcha" value="false">
 
-                            <button type="submit" class="btn">Transformemos tu Proceso</button>
+                            <button type="submit" id="submit-btn" class="btn">Transformemos tu Proceso</button>
                         </form>
+
+                        <div id="form-message"></div>
 
                         <div id="exito" class="success-message" style="display: none;">
                             <i class="fas fa-check-circle"></i>
@@ -171,28 +165,19 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
+    <footer>
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-col">
-                    <h3 class="footer-brand">Flujo <span class="logo-accent">Base</span></h3>
-                    <p>Transformamos procesos con inteligencia artificial y automatización para impulsar tu negocio.</p>
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="assets/img/Logo FLUJO BASE profesional_2.png" alt="Flujo Base">
+                        <span>Flujo Base</span>
+                    </div>
+                    <p>Empresa de transformación digital especializada en Inteligencia Artificial, automatización y desarrollo de soluciones digitales para emprendedores y empresas.</p>
                 </div>
-                <div class="footer-col">
-                    <h4>Navegación</h4>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="servicios.html">Servicios</a></li>
-                        <li><a href="casos-de-exito.html">Casos de Éxito</a></li>
-                        <li><a href="nosotros.html">Nosotros</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contacto.html">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
+                <div class="footer-links">
                     <h4>Servicios</h4>
-                    <ul class="footer-links">
+                    <ul>
                         <li><a href="servicios.html#ia">Inteligencia Artificial</a></li>
                         <li><a href="servicios.html#automatizacion">Automatización</a></li>
                         <li><a href="servicios.html#desarrollo">Desarrollo Web</a></li>
@@ -200,24 +185,36 @@
                         <li><a href="servicios.html#consultoria">Consultoría</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
+                <div class="footer-links">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Sobre Nosotros</a></li>
+                        <li><a href="casos-exito.html">Casos de Éxito</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
                     <h4>Síguenos</h4>
                     <div class="social-links">
                         <a href="https://www.linkedin.com/in/david-esteban-castaño-meneses-62a30a350/?skipRedirect=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                         <a href="https://github.com/Davidcastanom" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="https://www.facebook.com/profile.php?id=61591989834382" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61591989834382" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
                         <a href="https://www.instagram.com/flujobase.digital?igsh=MTdyeTFla3ozbnduMg==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
+                    <a href="https://github.com/Davidcastanom" target="_blank" class="btn btn-outline btn-sm footer-cta">
+                        <i class="fab fa-github"></i> Portafolio Técnico
+                    </a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Flujo Base. Todos los derechos reservados.</p>
+                <p>&copy; <span class="copyright-year"></span> Flujo Base. Todos los derechos reservados.</p>
+                <p class="footer-tagline">Transformamos procesos. Impulsamos resultados.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
