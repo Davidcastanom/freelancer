@@ -230,25 +230,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /*
     ===========================================================
-    CONFIGURACIÓN DEL WEBHOOK DE NOTION
+    ✋ CONFIGURACIÓN DEL WEBHOOK — LO QUE DEBES CAMBIAR TÚ
     ===========================================================
-    Cambia esta URL por la URL de tu webhook en Make (Integromat).
-    
-    PASOS EN MAKE:
-    1. Crea un nuevo Scenario
-    2. Módulo 1: Webhooks > Custom webhook → copia la URL aquí
-    3. Módulo 2: Notion > List database pages
-       - Database ID: obtén el ID de tu base de datos de Notion
-         (está en la URL: notion.so/<workspace>/<DATABASE_ID?v=...)
-    4. Módulo 3: Webhooks > Response → devuelve JSON con los campos:
-       id, title, excerpt, cover, date, dateFormatted, category, tags, contentUrl
-    5. Activa el Scenario
+
+    CAMBIO 1: Pega aquí la URL de tu webhook de Make
+    ─────────────────────────────────────────────────
+    1. Ve a make.com → abre tu Scenario
+    2. En el Módulo 1 (Webhook), copia la URL que te genere
+    3. Pégala entre las comillas de abajo (reemplaza las comillas vacías)
+
+    Ejemplo: const BLOG_WEBHOOK_URL = 'https://hook.us2.make.com/abc123xyz...';
+
+    Si dejas las comillas vacías '', el blog usará los 3 artículos de ejemplo
+    que están más abajo en FALLBACK_POSTS. No se rompe nada, solo muestra
+    contenido de prueba en vez de tus artículos reales de Notion.
+
+    CAMBIO 2: Edita los artículos de ejemplo (opcional)
+    ─────────────────────────────────────────────────────
+    Si quieres cambiar los 3 artículos de ejemplo sin configurar Make,
+    busca FALLBACK_POSTS más abajo y edita los campos:
+    - title: Título del artículo
+    - excerpt: Resumen del artículo
+    - cover: URL de la imagen de portada
+    - date: Fecha en formato YYYY-MM-DD
+    - dateFormatted: Fecha legible (ej: "10 Julio 2026")
+    - category: ia | automatizacion | desarrollo | datos | consultoria
+    - tags: palabras clave para la búsqueda
+    - contentUrl: # (sin enlace) o URL del artículo
+
+    Para imágenes puedes usar:
+    - https://via.placeholder.com/800x450/0A0A0F/0066FF?text=Tu+Texto
+    - O subir a imgur.com y pegar el link directo
     ===========================================================
     */
-    const BLOG_WEBHOOK_URL = '';  // ← PON AQUÍ TU URL DE MAKE CUANDO LA TENGAS
+    const BLOG_WEBHOOK_URL = '';  // ← PEGAR AQUÍ TU URL DE MAKE
 
 
-    // --- Artículos de fallback (se muestran si el webhook no está configurado) ---
+    // --- ARTÍCULOS DE EJEMPLO (se muestran si no tienes Make configurado) ---
+    // ✋ EDITA ESTOS CAMPOS si quieres cambiar los artículos que se ven en el blog
+    // Cada objeto es un artículo. Copia un objeto completo para agregar más.
+    // Cuando configures Make, estos se reemplazan automáticamente por tus artículos de Notion.
     const FALLBACK_POSTS = [
         {
             id: 'fallback-1',

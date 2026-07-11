@@ -86,54 +86,122 @@
                      ========================================== -->
                 <!--
                 ===========================================================
-                CÓMO FUNCIONA LA INTEGRACIÓN CON NOTION:
+                ✋ LO QUE DEBES HACER TÚ MANUALMENTE (PASO A PASO)
                 ===========================================================
 
-                1. CREA UNA BASE DE DATOS EN NOTION CON ESTAS COLUMNAS:
-                   ┌──────────────────┬─────────────────┬──────────────────────────────────┐
-                   │ Propiedad        │ Tipo            │ Ejemplo                          │
-                   ├──────────────────┼─────────────────┼──────────────────────────────────┤
-                   │ Title            │ Title           │ "Cómo usar IA en tu negocio"     │
-                   │ Excerpt          │ Rich text       │ "Descubre las herramientas..."   │
-                   │ Cover            │ Files           │ (imagen de portada)              │
-                   │ Date             │ Date            │ 2026-07-10                       │
-                   │ Category         │ Select          │ IA | Automatización | Desarrollo │
-                   │ Tags             │ Multi-select    │ productividad, herramientas      │
-                   │ ContentURL       │ URL             │ https://notion.so/xxx            │
-                   └──────────────────┴─────────────────┴──────────────────────────────────┘
+                Este grid se llena automáticamente con JavaScript. No edites el HTML.
+                Solo necesitas configurar 3 cosas:
 
-                2. CONFIGURA EL SCENARIO EN MAKE (Integromat):
-                   - Módulo 1: Webhooks > Custom webhook (recibe POST del sitio)
-                   - Módulo 2: Notion > List database pages (database_id del body)
-                   - Módulo 3: Webhooks > Response (devuelve JSON formateado)
-                   - Módulo 4 (opcional): Notion > Get page content (para contenido rico)
+                ─────────────────────────────────────────────
+                PASO 1: CREAR LA BASE DE DATOS EN NOTION
+                ─────────────────────────────────────────────
+                Ve a notion.so y crea una nueva base de datos (Database) con ESTAS
+                columnas EXACTAMENTE en este orden:
 
-                3. EL WEBHOOK DEBE DEVOLVER ESTE FORMATO:
-                   [
-                     {
-                       "id": "abc123...",
-                       "title": "Título del artículo",
-                       "excerpt": "Extracto breve del artículo...",
-                       "cover": "https://url-de-la-imagen.jpg",
-                       "date": "2026-07-10",
-                       "dateFormatted": "10 Julio 2026",
-                       "category": "ia",
-                       "tags": ["productividad", "herramientas"],
-                       "contentUrl": "https://notion.so/xxx"
-                     }
-                   ]
+                ┌──────────────┬───────────────┬───────────────────────────────────┐
+                │ Nombre       │ Tipo de dato  │ Qué poner                         │
+                ├──────────────┼───────────────┼───────────────────────────────────┤
+                │ Title        │ Title         │ El título del artículo            │
+                │              │               │ Ej: "Cómo usar IA en tu negocio"  │
+                ├──────────────┼───────────────┼───────────────────────────────────┤
+                │ Excerpt      │ Rich text     │ Un resumen de 1-2 oraciones       │
+                │              │               │ Ej: "Descubre las herramientas…"  │
+                ├──────────────┼───────────────┼───────────────────────────────────┤
+                │ Cover        │ Files & media │ La imagen de portada del artículo │
+                │              │               │ Sube una imagen 16:9 (800x450)    │
+                ├──────────────┼───────────────┼───────────────────────────────────┤
+                │ Date         │ Date          │ Fecha de publicación              │
+                │              │               │ Ej: 10 de julio de 2026           │
+                ├──────────────┼───────────────┼───────────────────────────────────┤
+                │ Category     │ Select        │ Una de estas opciones:            │
+                │              │               │ IA | Automatización | Desarrollo  │
+                │              │               │ | Datos | Consultoría              │
+                ├──────────────┼───────────────┼───────────────────────────────────┤
+                │ Tags         │ Multi-select  │ Etiquetas del artículo            │
+                │              │               │ Ej: productividad, herramientas   │
+                ├──────────────┼───────────────┼───────────────────────────────────┤
+                │ ContentURL   │ URL           │ Link a la página de Notion        │
+                │              │               │ (copia el link de la página)      │
+                └──────────────┴───────────────┴───────────────────────────────────┘
 
-                4. CAMBIA LA URL DEL WEBHOOK EN script.js:
-                   Busca la constante BLOG_WEBHOOK_URL y reemplázala por tu URL de Make.
+                IMPORTANTE: Los nombres de las columnas deben ser EXACTAMENTE
+                como aparecen arriba (Title, Excerpt, Cover, Date, Category, Tags, ContentURL).
+                Si los cambias, el webhook no funcionará.
 
-                5. SI EL WEBHOOK NO ESTÁ CONFIGURADO, EL BLOG MUESTRA PLACEHOLDERS
-                   (artículos estáticos de ejemplo que puedes editar directamente)
+                Una vez creada, escribe el PRIMER artículo de prueba para verificar
+                que todo funciona antes de crear más.
+
+                ─────────────────────────────────────────────
+                PASO 2: CONFIGURAR EL SCENARIO EN MAKE
+                ─────────────────────────────────────────────
+                Ve a make.com y crea un nuevo Scenario con estos módulos:
+
+                MÓDULO 1 — Webhook (recibe petición del sitio web):
+                → Tipo: Webhooks > Custom webhook
+                → Copia la URL que te genere
+                → Pégala en script.js donde dice BLOG_WEBHOOK_URL
+
+                MÓDULO 2 — Notion (obtiene los artículos):
+                → Tipo: Notion > List database pages
+                → Connection: conecta tu cuenta de Notion
+                → Database ID: pega el ID de tu base de datos
+                  (copia el ID de la URL: notion.so/mi-workspace/XXXXX?v=...)
+                  El ID es la parte larga después del workspace name
+
+                MÓDULO 3 — Webhook Response (devuelve los datos al sitio):
+                → Tipo: Webhooks > Response
+                → Status: 200
+                → Body: copia y pega ESTE JSON exacto:
+
+                [
+                  {{1.data.results[].map(item => {
+                    return {
+                      id: item.id,
+                      title: item.properties.Title.title[0]?.plain_text || "",
+                      excerpt: item.properties.Excerpt.rich_text[0]?.plain_text || "",
+                      cover: item.properties.Cover.files[0]?.file?.url || item.properties.Cover.files[0]?.external?.url || "",
+                      date: item.properties.Date.date?.start || "",
+                      dateFormatted: new Date(item.properties.Date.date?.start).toLocaleDateString('es-CO', {day: 'numeric', month: 'long', year: 'numeric'}),
+                      category: item.properties.Category.select?.name?.toLowerCase() || "ia",
+                      tags: item.properties.Tags.multi_select?.map(t => t.name) || [],
+                      contentUrl: item.properties.ContentURL.url || "#"
+                    }
+                  })}}
+                ]
+
+                LUEGO: Activa el Scenario (botón ON/OFF en la esquina).
+
+                ─────────────────────────────────────────────
+                PASO 3: PROBAR QUE FUNCIONA
+                ─────────────────────────────────────────────
+                1. Abre tu sitio web en el navegador
+                2. Ve a la página del Blog
+                3. Abre la consola del navegador (F12 → pestaña Console)
+                4. Si ves "Blog: webhook no disponible" → el webhook no está activo
+                5. Si ves artículos con tu contenido de Notion → ¡funciona!
+                6. Si hay errores, revisa que el Scenario de Make esté ON
+
+                ─────────────────────────────────────────────
+                ⚠️  MIENTRAS TANTO (sin webhook configurado)
+                ─────────────────────────────────────────────
+                El blog muestra 3 artículos de EJEMPLO. Para cambiarlos sin webhook,
+                edita el archivo script.js y busca "FALLBACK_POSTS". Ahí puedes
+                cambiar títulos, extractos, imágenes y fechas directamente.
+                Los campos del fallback son:
+                - title: Título del artículo
+                - excerpt: Resumen (1-2 oraciones)
+                - cover: URL de la imagen (usa via.placeholder.com o sube a Imgur)
+                - date: Fecha en formato YYYY-MM-DD
+                - dateFormatted: Fecha legible (ej: "10 Julio 2026")
+                - category: ia | automatizacion | desarrollo | datos | consultoria
+                - tags: array de strings (etiquetas para búsqueda)
+                - contentUrl: # (o link real del artículo)
                 ===========================================================
                 -->
 
                 <div class="blog-grid" id="blog-grid">
                     <!-- Los artículos se insertan dinámicamente con JavaScript -->
-                    <!-- También sirven como fallback si el webhook no está activo -->
+                    <!-- NO EDITES ESTE DIV — se llena solo desde script.js -->
                 </div>
 
                 <!-- Estado vacío (cuando no hay resultados) -->
@@ -179,6 +247,19 @@
 
     <!-- ==========================================
          MODAL / POPUP PARA PREVISUALIZAR ARTÍCULOS
+         ==========================================
+         Este modal se abre automáticamente al hacer clic en un artículo.
+         Muestra el contenido embebido de Notion en un iframe.
+
+         ✋ LO QUE NECESITA TU CUENTA DE NOTION:
+         Para que el iframe funcione, tu página de Notion debe ser "Share to web":
+         1. Abre la página del artículo en Notion
+         2. Click en "Share" (arriba a la derecha)
+         3. Activa "Share to web"
+         4. Copia el link y pégalo en la propiedad "ContentURL" de la base de datos
+
+         Sin este paso, el modal mostrará la página de login de Notion en vez
+         del contenido del artículo.
          ========================================== -->
     <div class="blog-modal" id="blog-modal">
         <div class="blog-modal-backdrop" id="blog-modal-backdrop"></div>
