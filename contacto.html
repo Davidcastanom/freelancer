@@ -1,134 +1,215 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- Metadatos esenciales para SEO y correcta visualización -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="David Castaño — Flujo Base. Ponte en contacto para automatizar tu negocio, desarrollar tu página web o administrar tu sitio.">
-    <meta name="author" content="David Castaño">
-
-    <!-- Open Graph: metadata para compartir en redes sociales -->
-    <meta property="og:title" content="Contacto | Flujo Base">
-    <meta property="og:description" content="Envíame un mensaje y te ayudaré a impulsar tu negocio con soluciones web a medida.">
-    <meta property="og:image" content="assets/img/Logo FLUJO BASE profesional_2.png">
-    <meta property="og:url" content="https://davidcastanom.github.io/freelancer/contacto.html">
-    <meta property="og:type" content="website">
-
-    <!-- Título de la pestaña del navegador -->
     <title>Contacto | Flujo Base</title>
-    <link rel="icon" href="assets/img/favicon1.png" type="image/png">
+    <meta name="description" content="Contáctanos en Flujo Base. Cuéntanos sobre tu proyecto y te ayudaremos a transformar tus procesos con inteligencia artificial y automatización.">
+    <meta name="keywords" content="contacto, flujo base, inteligencia artificial, automatización, consultoría digital">
+    <meta name="author" content="Flujo Base">
+    <meta name="robots" content="index, follow">
 
-    <!-- Google Fonts: Tipografía moderna y profesional -->
+    <!-- Open Graph -->
+    <meta property="og:title" content="Contacto | Flujo Base">
+    <meta property="og:description" content="Contáctanos en Flujo Base. Cuéntanos sobre tu proyecto y te ayudaremos a transformar tus procesos con inteligencia artificial y automatización.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://davidcastanom.github.io/freelancer/contacto.html">
+    <meta property="og:locale" content="es_CO">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome: Iconos para redes sociales y servicios -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Enlace al archivo CSS para los estilos -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- ==========================================
-         ENCABEZADO Y NAVEGACIÓN
-         ========================================== -->
-    <header id="header">
-        <nav class="navbar container">
-            <div class="logo-circular">
-                <img src="assets/img/Logo FLUJO BASE profesional_2.png" alt="Logo de Flujo Base">
-            </div> 
-            <div class="logo"><a href="index.html">Flujo Base</a></div>
-            <!-- MENÚ DE NAVEGACIÓN -->
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">Inicio</a></li>
-                <li><a href="servicios.html" class="nav-link">Servicios</a></li>
-                <li><a href="portafolio.html" class="nav-link">Portafolio</a></li>
-                <li><a href="contacto.html" class="nav-link active">Contacto</a></li>
-            </ul>
-
-            <!-- MENÚ HAMBURGUESA (Para móviles) -->
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <span class="logo-text">Flujo <span class="logo-accent">Base</span></span>
+                </a>
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Inicio</a></li>
+                    <li><a href="servicios.html" class="nav-link">Servicios</a></li>
+                    <li><a href="casos-de-exito.html" class="nav-link">Casos de Éxito</a></li>
+                    <li><a href="nosotros.html" class="nav-link">Nosotros</a></li>
+                    <li><a href="blog.html" class="nav-link">Blog</a></li>
+                    <li><a href="contacto.html" class="nav-link active">Contacto</a></li>
+                </ul>
             </div>
         </nav>
     </header>
 
-    <main class="section-spacing">
-     <!-- ==========================================
-             SECCIÓN DE CONTACTO
-             ========================================== -->
-             <section id="contacto">
-                <div class="container">
-                    <h2 class="section-title">Ponte en Contacto</h2>
-                    <div class="contact-wrapper">
-                        <div class="contact-info">
-                            <h3>¿Listo para empezar?</h3>
-                            <p>Envíame un mensaje y te responderé a la brevedad para discutir cómo puedo ayudarte a alcanzar tus objetivos.</p> 
-                            <div class="info-item">
+    <!-- Main Content -->
+    <main>
+        <section class="section-spacing">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <h2 class="section-title">Hablemos de Tu Proyecto</h2>
+                    <p class="section-subtitle">Transformamos procesos y potenciamos resultados. Cuéntanos tu idea y te ayudaremos a convertirla en una solución real que impulse tu negocio al siguiente nivel.</p>
+                </div>
+
+                <div class="contact-grid fade-in">
+                    <!-- Left Column: Contact Info -->
+                    <div class="contact-info">
+                        <h3>Información de Contacto</h3>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
-                                <span>solucionesdigitales@gmail.com</span>
                             </div>
-                            <div class="info-item">
-                                <i class="fas fa-phone"></i>
-                                <span>+57 301 684 4364</span>
-                            </div>
-                            <div class="info-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Medellín, Colombia</span>
+                            <div class="contact-details">
+                                <span class="contact-label">Correo Electrónico</span>
+                                <a href="mailto:flujobase.digital@gmail.com">flujobase.digital@gmail.com</a>
                             </div>
                         </div>
-                        <!-- FORMULARIO DE CONTACTO
-                             El formulario envía los datos a un webhook de Make (Integromat).
-                             Si necesitas cambiar el destino, actualiza la URL en el atributo 'action'
-                             y también en script.js (busca la función fetch).
-                        -->
-                        <form class="contact-form" id="contact-form" action="https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb" method="POST">
-                            <div class="form-group">
-                                <label for="name">Nombre Completo</label>
-                                <input type="text" id="name" name="name" required>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fab fa-whatsapp"></i>
                             </div>
-                            <div class="form-group">
-                                <label for="email">Correo Electrónico</label>
-                                <input type="email" id="email" name="email" required>
+                            <div class="contact-details">
+                                <span class="contact-label">WhatsApp</span>
+                                <a href="https://wa.me/573001234567?text=Hola%20Flujo%20Base%2C%20me%20interesa%20un%20servicio" target="_blank" rel="noopener noreferrer">Escríbenos directo</a>
                             </div>
-                            <div class="form-group">
-                                <label for="phone">Teléfono (Opcional)</label>
-                                <input type="tel" id="phone" name="phone">
+                        </div>
+
+                        <div class="quick-info-card">
+                            <div class="quick-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Respuesta en 24h</span>
                             </div>
-                            <div class="form-group">
-                                <label for="message">Mensaje</label>
-                                <textarea id="message" name="message" required></textarea>
+                            <div class="quick-info-item">
+                                <i class="fas fa-comment-dots"></i>
+                                <span>Consulta gratis</span>
                             </div>
-                            <button type="submit" class="btn" id="submit-btn">Enviar Mensaje</button>
-                            <div id="form-message"></div>
+                            <div class="quick-info-item">
+                                <i class="fas fa-handshake"></i>
+                                <span>Sin compromiso</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Contact Form -->
+                    <div class="contact-form-wrap">
+                        <h3>Envíanos un Mensaje</h3>
+                        <form action="https://formsubmit.co/flujobase.digital@gmail.com" method="POST">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">Nombre Completo</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Correo Electrónico</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="business-type">Tipo de Negocio</label>
+                                    <select id="business-type" name="Tipo de Negocio">
+                                        <option value="" disabled selected>Seleccione una opción</option>
+                                        <option value="Emprendedor / PyME">Emprendedor / PyME</option>
+                                        <option value="Freelancer / Independiente">Freelancer / Independiente</option>
+                                        <option value="Empresa / Corporación">Empresa / Corporación</option>
+                                        <option value="Startup">Startup</option>
+                                        <option value="Otra">Otra</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="service-interest">¿Qué servicio te interesa?</label>
+                                    <select id="service-interest" name="Servicio de Interés">
+                                        <option value="" disabled selected>Seleccione una opción</option>
+                                        <option value="Inteligencia Artificial">Inteligencia Artificial</option>
+                                        <option value="Automatización de Procesos">Automatización de Procesos</option>
+                                        <option value="Desarrollo Web y Software">Desarrollo Web y Software</option>
+                                        <option value="Análisis de Datos">Análisis de Datos</option>
+                                        <option value="Consultoría y Capacitación">Consultoría y Capacitación</option>
+                                        <option value="No estoy seguro">No estoy seguro</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Cuéntanos sobre tu proyecto</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+
+                            <input type="hidden" name="_next" value="https://davidcastanom.github.io/freelancer/contacto.html#exito">
+                            <input type="hidden" name="_captcha" value="false">
+
+                            <button type="submit" class="btn">Transformemos tu Proceso</button>
                         </form>
+
+                        <div id="exito" class="success-message" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <p>¡Mensaje enviado correctamente! Te contactaremos pronto.</p>
+                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
     </main>
 
-    <!-- ==========================================
-         PIE DE PÁGINA (FOOTER)
-         ========================================== -->
-    <footer>
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
-            <!-- REDES SOCIALES: Actualiza los href con tus enlaces reales -->
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/david-esteban-castaño-meneses-62a30a350/?skipRedirect=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://github.com/Davidcastanom" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://www.facebook.com/profile.php?id=61591989834382" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/flujobase.digital?igsh=MTdyeTFla3ozbnduMg==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 class="footer-brand">Flujo <span class="logo-accent">Base</span></h3>
+                    <p>Transformamos procesos con inteligencia artificial y automatización para impulsar tu negocio.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Navegación</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="servicios.html">Servicios</a></li>
+                        <li><a href="casos-de-exito.html">Casos de Éxito</a></li>
+                        <li><a href="nosotros.html">Nosotros</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Servicios</h4>
+                    <ul class="footer-links">
+                        <li><a href="servicios.html#ia">Inteligencia Artificial</a></li>
+                        <li><a href="servicios.html#automatizacion">Automatización</a></li>
+                        <li><a href="servicios.html#desarrollo">Desarrollo Web</a></li>
+                        <li><a href="servicios.html#datos">Análisis de Datos</a></li>
+                        <li><a href="servicios.html#consultoria">Consultoría</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/david-esteban-castaño-meneses-62a30a350/?skipRedirect=true" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/Davidcastanom" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61591989834382" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/flujobase.digital?igsh=MTdyeTFla3ozbnduMg==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
             </div>
-            <p>&copy; <span class="copyright-year"></span> David Castaño. Todos los derechos reservados.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Flujo Base. Todos los derechos reservados.</p>
+            </div>
         </div>
     </footer>
-    
-    <!-- Enlace al archivo JavaScript -->
-    <script src="script.js" defer></script>
-</body>
 
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
 </html>

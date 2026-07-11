@@ -3,10 +3,13 @@
 // Maneja la interactividad del sitio web:
 // 1. Menú hamburguesa móvil
 // 2. Header con efecto de scroll
-// 3. Formulario de contacto con estado de carga
+// 3. Formulario de contacto con Make webhook
 // 4. Portfolio táctil para móvil
 // 5. Copyright dinámico (año actual)
 // 6. Detección de página activa
+// 7. Animaciones fade-in con IntersectionObserver
+// 8. Filtros del blog
+// 9. Filtros de casos de éxito
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,13 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const navMenu = document.querySelector(".nav-menu");
     const navLinks = document.querySelectorAll(".nav-link");
 
-    // Al hacer clic en el ícono de hamburguesa, alterna la clase 'active'
-    hamburger.addEventListener("click", () => {
-        hamburger.classList.toggle("active");
-        navMenu.classList.toggle("active");
-    });
+    if (hamburger) {
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        });
+    }
 
-    // Al hacer clic en un enlace del menú, se cierra el menú móvil
     navLinks.forEach(link => link.addEventListener("click", () => {
         hamburger.classList.remove("active");
         navMenu.classList.remove("active");
@@ -61,16 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (contactForm) {
         contactForm.addEventListener('submit', function(event) {
-            // Previene el envío tradicional del formulario
             event.preventDefault();
             
-            // Obtiene los valores de los campos del formulario
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const message = document.getElementById('message').value.trim();
+            const name = document.getElementById('name')?.value.trim() || '';
+            const email = document.getElementById('email')?.value.trim() || '';
+            const businessType = document.getElementById('business-type')?.value || '';
+            const serviceInterest = document.getElementById('service-interest')?.value || '';
+            const message = document.getElementById('message')?.value.trim() || '';
 
-            // --- VALIDACIÓN BÁSICA ---
             if (name === '' || email === '' || message === '') {
                 showMessage('Por favor, completa todos los campos obligatorios.', 'error');
                 return;
@@ -81,12 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // --- ESTADO DE CARGA ---
-            // Deshabilita el botón y muestra spinner mientras se envía
             submitBtn.disabled = true;
             submitBtn.classList.add('loading');
 
-            // --- ENVÍO DEL FORMULARIO A MAKE ---
             fetch("https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb", {
                 method: "POST",
                 headers: {
@@ -95,14 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({
                     name: name,
                     email: email,
-                    phone: phone,
+                    businessType: businessType,
+                    serviceInterest: serviceInterest,
                     message: message
                 })
             })
             .then(response => {
                 if (!response.ok) throw new Error("Error en el envío");
-    
-                showMessage('¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.', 'success');
+                showMessage('¡Mensaje enviado con éxito! Te contactaremos pronto.', 'success');
                 contactForm.reset();
             })
             .catch(error => {
@@ -110,34 +108,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 showMessage('Hubo un error al enviar el mensaje. Intenta más tarde.', 'error');
             })
             .finally(() => {
-                // Restaura el botón después del envío (éxito o error)
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('loading');
             });
         });
     }
 
-    /**
-     * Muestra un mensaje de éxito o error en el formulario.
-     * Se oculta automáticamente después de 5 segundos.
-     * @param {string} text - Texto del mensaje
-     * @param {string} type - 'success' o 'error'
-     */
     function showMessage(text, type) {
+        if (!formMessage) return;
         formMessage.textContent = text;
         formMessage.className = type;
-        
         setTimeout(() => {
             formMessage.textContent = '';
             formMessage.className = '';
         }, 5000);
     }
 
-    /**
-     * Valida el formato de un correo electrónico usando regex.
-     * @param {string} email - Correo a validar
-     * @returns {boolean} true si es válido, false si no
-     */
     function isValidEmail(email) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
@@ -154,30 +140,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     portfolioItems.forEach(item => {
         item.addEventListener('click', (e) => {
-            // En móvil, si el item ya tiene la clase 'tapped' y el clic
-            // es en el overlay, deja que el enlace funcione normalmente
             if (item.classList.contains('tapped')) {
-                // Si el clic fue en un enlace dentro del overlay, permitir la navegación
                 const clickedLink = e.target.closest('a');
                 if (clickedLink) {
-                    return; // Permite que el enlace funcione
+                    return;
                 }
-                // Si no fue en un enlace, remove la clase tapped
                 item.classList.remove('tapped');
                 return;
             }
 
-            // Solo aplicar en pantallas táctiles (ancho <= 768px)
             if (window.innerWidth <= 768) {
-                // Primero, quitar tapped de todos los demás items
                 portfolioItems.forEach(otherItem => {
                     if (otherItem !== item) {
                         otherItem.classList.remove('tapped');
                     }
                 });
-                // Aplicar tapped al item clickeado
                 item.classList.add('tapped');
-                // Prevenir la navegación del enlace en el primer tap
                 if (e.target.closest('.portfolio-item-link')) {
                     e.preventDefault();
                 }
@@ -212,6 +190,83 @@ document.addEventListener('DOMContentLoaded', () => {
         if (href === currentPage) {
             link.classList.add('active');
         }
+    });
+
+
+    // ======================================================================
+    // 7. ANIMACIONES FADE-IN
+    // Observa los elementos con clase .fade-in y les agrega .visible
+    // cuando entran en el viewport, activando la transición CSS.
+    // ======================================================================
+    const fadeElements = document.querySelectorAll('.fade-in');
+
+    if (fadeElements.length > 0) {
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    fadeObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        fadeElements.forEach(el => fadeObserver.observe(el));
+    }
+
+
+    // ======================================================================
+    // 8. FILTROS DEL BLOG
+    // Permite filtrar artículos del blog por categoría.
+    // Los botones usan data-filter y los artículos data-category.
+    // ======================================================================
+    const blogFilters = document.querySelectorAll('.blog-filters .filter-btn');
+    const blogCards = document.querySelectorAll('.blog-grid .blog-card');
+
+    blogFilters.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Actualizar botón activo
+            blogFilters.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.getAttribute('data-filter');
+
+            blogCards.forEach(card => {
+                if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+
+    // ======================================================================
+    // 9. FILTROS DE CASOS DE ÉXITO
+    // Permite filtrar casos de éxito por tipo: imagen, video, enlace.
+    // Los botones usan data-filter y los items data-type.
+    // ======================================================================
+    const portfolioFilters = document.querySelectorAll('.portfolio-filters .filter-btn');
+    const portfolioCards = document.querySelectorAll('.portfolio-grid .portfolio-item');
+
+    portfolioFilters.forEach(btn => {
+        btn.addEventListener('click', () => {
+            portfolioFilters.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.getAttribute('data-filter');
+
+            portfolioCards.forEach(card => {
+                if (filter === 'all' || card.getAttribute('data-type') === filter) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     });
 
 });

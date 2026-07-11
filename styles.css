@@ -1,11 +1,13 @@
 /* ==========================================================================
-   FLUJO BASE — ESTILOS GLOBALES
-   Manual de estilos para el sitio web de Flujo Base.
-   Paleta: Dark theme con acentos cian/azul.
-   Tipografía: Poppins (Google Fonts).
+   FLUJO BASE — ESTILOS GLOBALES v2.0
+   Manual de estilos basado en el Manual de Marca Flujo Base 1.0.
+   
+   Paleta: Azul eléctrico, Negro, Blanco, Gris metálico, Cian acento.
+   Tipografía: Poppins (principal) + Space Grotesk (secundaria/títulos).
+   Estilo: Minimalista, tecnológico, futurista, elegante, limpio.
    
    ESTRUCTURA DEL ARCHIVO:
-   1. Variables globales
+   1. Variables globales (paleta oficial)
    2. Reset y estilos base
    3. Contenedor y utilidades
    4. Tipografía
@@ -13,44 +15,52 @@
    6. Header y navegación
    7. Logo circular
    8. Sección Hero
-   9. Sección de Servicios
-   10. Sección de Portafolio
-   11. Sección de Contacto
-   12. Footer
-   13. Responsive — Móvil (< 768px)
-   14. Responsive — Tablet (769px - 1024px)
+   9. Pilares de contenido
+   10. Valores
+   11. Sección de Servicios
+   12. Sección de Casos de Éxito
+   13. Sección Sobre Nosotros
+   14. Sección del Blog
+   15. Sección de Contacto
+   16. Footer multi-columna
+   17. Animaciones
+   18. Responsive — Móvil (< 768px)
+   19. Responsive — Tablet (769px - 1024px)
    ========================================================================== */
 
 
 /* --------------------------------------------------------------------------
    1. VARIABLES GLOBALES
+   Paleta oficial del Manual de Marca Flujo Base 1.0.
    Cambia estos valores para actualizar toda la paleta del sitio.
    -------------------------------------------------------------------------- */
 :root {
-    /* --- Paleta de colores --- */
-    --color-primario: #0de4ff;           /* Cian brillante: botones, acentos, iconos */
-    --color-secundario: #27ABF2;         /* Azul medio: efectos hover */
-    --color-fondo: #121212;              /* Negro base: fondo general del sitio */
-    --color-superficie: #1e1e1e;         /* Gris oscuro: tarjetas, secciones alternas */
-    --color-fondo-footer: #0a0a0a;       /* Negro profundo: fondo exclusivo del footer */
-    --color-texto-principal: #f0f0f0;    /* Blanco suave: texto primario */
-    --color-texto-secundario: #b0b0b0;   /* Gris claro: texto secundario, descripciones */
-    --color-borde: #333333;              /* Gris oscuro: bordes sutiles de tarjetas y inputs */
-    --color-exito: #28a745;              /* Verde: mensajes de éxito en formulario */
-    --color-error: #dc3545;              /* Rojo: mensajes de error en formulario */
+    /* --- Paleta oficial — Manual de Marca --- */
+    --color-primario: #0066FF;           /* Azul eléctrico: botones, acentos, iconos */
+    --color-secundario: #0052CC;         /* Azul oscuro: hover states */
+    --color-fondo: #0A0A0F;             /* Negro: fondo general del sitio */
+    --color-fondo-footer: #060609;       /* Negro profundo: fondo del footer */
+    --color-superficie: #12121A;         /* Gris oscuro: tarjetas, secciones alternas */
+    --color-texto-principal: #F0F0F5;    /* Blanco suave: texto primario */
+    --color-texto-secundario: #9090A0;   /* Gris metálico: texto secundario */
+    --color-borde: #2A2A35;              /* Gris oscuro: bordes de tarjetas e inputs */
+    --color-acento: #00D4FF;             /* Cian: glow del logo, detalles puntuales */
+    --color-exito: #28a745;              /* Verde: mensajes de éxito */
+    --color-error: #dc3545;              /* Rojo: mensajes de error */
 
     /* --- Tipografía --- */
     --fuente-principal: 'Poppins', sans-serif;
+    --fuente-secundaria: 'Space Grotesk', sans-serif;
 
     /* --- Sistema de espaciado --- */
-    --espaciado-seccion: 80px;           /* Padding vertical de cada sección */
-    --espaciado-card: 2rem;              /* Padding interno de tarjetas */
-    --espaciado-container: 0 20px;       /* Padding horizontal del contenedor */
+    --espaciado-seccion: 80px;
+    --espaciado-card: 2rem;
+    --espaciado-container: 0 20px;
 
     /* --- Sombras --- */
-    --sombra-glow: 0 0 15px rgba(13, 228, 255, 0.6);
-    --sombra-card: 0 5px 15px rgba(0, 0, 0, 0.2);
-    --sombra-card-hover: 0 10px 20px rgba(13, 228, 255, 0.2);
+    --sombra-glow: 0 0 15px rgba(0, 102, 255, 0.4);
+    --sombra-card: 0 5px 15px rgba(0, 0, 0, 0.3);
+    --sombra-card-hover: 0 10px 25px rgba(0, 102, 255, 0.15);
 
     /* --- Bordes --- */
     --border-radius-card: 10px;
@@ -76,13 +86,12 @@ body {
     background-color: var(--color-fondo);
     color: var(--color-texto-principal);
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 
 /* --------------------------------------------------------------------------
    3. CONTENEDOR Y UTILIDADES
-   .container: centra el contenido con un ancho máximo de 1100px.
-   .section-spacing: reemplaza los <br> con padding vertical consistente.
    -------------------------------------------------------------------------- */
 .container {
     max-width: 1100px;
@@ -94,36 +103,74 @@ body {
     padding: var(--espaciado-seccion) 0;
 }
 
+/* --- Utilidades de texto --- */
+.text-center { text-align: center; }
+.text-primary { color: var(--color-primario); }
+.text-secondary { color: var(--color-texto-secundario); }
+.text-accent { color: var(--color-acento); }
+
+/* --- Utilidades de margen --- */
+.mb-1 { margin-bottom: 0.5rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.mb-4 { margin-bottom: 2rem; }
+
 
 /* --------------------------------------------------------------------------
    4. TIPOGRAFÍA
    -------------------------------------------------------------------------- */
 h1, h2, h3 {
+    font-family: var(--fuente-secundaria);
     font-weight: 600;
     line-height: 1.2;
 }
 
-/* --- Enlaces globales ---
-   NOTA: Este estilo base aplica a todos los <a> del sitio.
-   Para enlaces dentro de tarjetas o el nav, se sobreescribe con clases específicas.
-*/
+h1 { font-size: 3.2rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 1.5rem; }
+
+/* --- Título de sección con línea decorativa --- */
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--color-primario);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--color-texto-secundario);
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Enlaces globales --- */
 a {
     color: var(--color-texto-principal);
     text-decoration: none;
-    font-size: 2rem;
-    font-weight: 600;
-    text-shadow:
-        0 0 4px rgba(13, 228, 255, 0.6),
-        0 0 10px rgba(13, 228, 255, 0.4);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-primario);
 }
 
 
 /* --------------------------------------------------------------------------
    5. BOTONES
-   .btn: botón principal con fondo cian y bordes redondeados.
-   .btn-sm: variante pequeña para portfolios y CTAs secundarios.
-   .btn:disabled: estado deshabilitado durante envío de formulario.
-   .btn.loading: estado de carga con spinner CSS.
    -------------------------------------------------------------------------- */
 .btn {
     display: inline-block;
@@ -131,35 +178,46 @@ a {
     background-color: var(--color-primario);
     color: #fff;
     border-radius: var(--border-radius-boton);
+    font-family: var(--fuente-principal);
     font-weight: 500;
     font-size: 1rem;
     border: none;
     cursor: pointer;
-    text-shadow:
-        0 0 4px rgba(13, 228, 255, 0.6),
-        0 0 10px rgba(13, 228, 255, 0.4);
     transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
 }
 
 .btn:hover {
     background-color: var(--color-secundario);
     transform: translateY(-2px);
+    color: #fff;
 }
 
-/* Variante pequeña — para portfolios y CTAs secundarios */
+/* Variante pequeña */
 .btn-sm {
     padding: 8px 20px;
     font-size: 0.85rem;
 }
 
-/* Estado deshabilitado — se activa durante el envío del formulario */
+/* Variante outline (borde transparente) */
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--color-primario);
+    color: var(--color-primario);
+}
+
+.btn-outline:hover {
+    background-color: var(--color-primario);
+    color: #fff;
+}
+
+/* Estado deshabilitado */
 .btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
 
-/* Estado de carga — spinner animado con CSS puro */
+/* Estado de carga con spinner */
 .btn.loading {
     pointer-events: none;
     position: relative;
@@ -188,11 +246,9 @@ a {
 
 /* --------------------------------------------------------------------------
    6. HEADER Y NAVEGACIÓN
-   Header fijo en la parte superior con efecto de blur y reducción al scroll.
-   .nav-link.active: marca el enlace de la página actual.
    -------------------------------------------------------------------------- */
 header {
-    background-color: rgba(18, 18, 18, 0.9);
+    background-color: rgba(10, 10, 15, 0.9);
     backdrop-filter: blur(10px);
     padding: 1rem 0;
     position: fixed;
@@ -202,7 +258,6 @@ header {
     transition: background-color 0.3s ease, padding 0.3s ease;
 }
 
-/* Estado al hacer scroll: header más compacto con sombra */
 header.scrolled {
     background-color: var(--color-fondo);
     padding: 0.7rem 0;
@@ -215,8 +270,9 @@ header.scrolled {
     align-items: center;
 }
 
-/* --- Logo de texto --- */
+/* Logo de texto */
 .logo {
+    font-family: var(--fuente-secundaria);
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-primario);
@@ -226,7 +282,7 @@ header.scrolled {
     color: inherit;
 }
 
-/* --- Menú de navegación --- */
+/* Menú de navegación */
 .nav-menu {
     list-style: none;
     display: flex;
@@ -237,13 +293,14 @@ header.scrolled {
     font-weight: 500;
     transition: color 0.3s ease;
     position: relative;
+    font-size: 0.95rem;
 }
 
 .nav-link:hover {
     color: var(--color-primario);
 }
 
-/* Indicador de página activa — underline cian bajo el enlace actual */
+/* Indicador de página activa */
 .nav-link.active {
     color: var(--color-primario);
 }
@@ -259,7 +316,7 @@ header.scrolled {
     border-radius: 1px;
 }
 
-/* --- Menú hamburguesa (móvil) --- */
+/* Menú hamburguesa */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -277,8 +334,6 @@ header.scrolled {
 
 /* --------------------------------------------------------------------------
    7. LOGO CIRCULAR
-   Logo de imagen dentro de un círculo con efecto glow.
-   Ubicado en la navbar, a la izquierda del texto "Flujo Base".
    -------------------------------------------------------------------------- */
 .logo-circular {
     width: 90px;
@@ -302,32 +357,59 @@ header.scrolled {
 
 /* --------------------------------------------------------------------------
    8. SECCIÓN HERO
-   Presentación principal de la homepage.
-   Ocupa casi toda la viewport (90vh) y contiene texto + imagen en 2 columnas.
+   Presentación principal con eslogan de marca.
    -------------------------------------------------------------------------- */
 #inicio {
     padding-top: 100px;
     min-height: 90vh;
     display: flex;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Patrón tecnológico de fondo (CSS puro) */
+#inicio::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(0, 102, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(0, 212, 255, 0.03) 0%, transparent 50%);
+    pointer-events: none;
 }
 
 .hero-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 3rem;
     align-items: center;
 }
 
 .hero-text h1 {
-    font-size: 3.2rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.hero-text h1 .highlight {
+    color: var(--color-primario);
 }
 
 .hero-text p {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     color: var(--color-texto-secundario);
     margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .hero-image {
@@ -338,34 +420,100 @@ header.scrolled {
     max-width: 100%;
     height: auto;
     border-radius: var(--border-radius-card);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
 
 /* --------------------------------------------------------------------------
-   9. SECCIÓN DE SERVICIOS
-   Grid de tarjetas con icono, título y descripción de cada servicio.
+   9. PILARES DE CONTENIDO
+   5 pilares estratégicos de la marca.
+   -------------------------------------------------------------------------- */
+.pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+}
+
+.pillar-card {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--border-radius-card);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+}
+
+.pillar-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-primario);
+}
+
+.pillar-icon {
+    font-size: 2rem;
+    color: var(--color-primario);
+    margin-bottom: 0.75rem;
+}
+
+.pillar-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.pillar-card .pillar-percent {
+    font-size: 0.85rem;
+    color: var(--color-acento);
+    font-weight: 600;
+}
+
+
+/* --------------------------------------------------------------------------
+   10. VALORES
+   4 valores fundamentales de la marca.
+   -------------------------------------------------------------------------- */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.value-card {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--border-radius-card);
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-primario);
+}
+
+.value-icon {
+    font-size: 2.5rem;
+    color: var(--color-primario);
+    margin-bottom: 1rem;
+}
+
+.value-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.value-card p {
+    color: var(--color-texto-secundario);
+    font-size: 0.9rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   11. SECCIÓN DE SERVICIOS
+   5 pilares de servicio con descripción detallada.
    -------------------------------------------------------------------------- */
 #servicios {
     background-color: var(--color-superficie);
-}
-
-.section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    position: relative;
-}
-
-/* Línea decorativa debajo de los títulos de sección */
-.section-title::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 4px;
-    background-color: var(--color-primario);
-    margin: 0.5rem auto 0;
-    border-radius: 2px;
 }
 
 .services-grid {
@@ -395,45 +543,65 @@ header.scrolled {
 }
 
 .service-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
 }
 
 .service-card p {
+    color: var(--color-texto-secundario);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.service-card .btn {
+    font-size: 0.85rem;
+}
+
+/* Tags de servicios incluidos */
+.service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.service-tag {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: 20px;
     color: var(--color-texto-secundario);
 }
 
 
 /* --------------------------------------------------------------------------
-   10. SECCIÓN DE PORTAFOLIO
-   Grid de proyectos con overlay interactivo.
-   Soporta 3 tipos de items:
-     - data-type="imagen": proyecto con captura de pantalla
-     - data-type="video": proyecto con video embebido (Drive, YouTube)
-     - data-type="enlace": enlace directo al proyecto en vivo
-   
-   El overlay se muestra con hover en escritorio y con tap en móvil.
+   12. SECCIÓN DE CASOS DE ÉXITO
+   Grid de casos con overlay, resultado medible y categoría.
+   3 tipos: imagen, video, enlace.
    -------------------------------------------------------------------------- */
-#portafolio {
-    /* Sin background-color alternado — se mantiene el fondo base */
+#casos-exito {
+    background-color: var(--color-fondo);
 }
 
-.portfolio-grid {
+.cases-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
 }
 
-.portfolio-item {
+.case-card {
     position: relative;
     overflow: hidden;
     border-radius: var(--border-radius-card);
     box-shadow: var(--sombra-card);
     cursor: pointer;
+    background-color: var(--color-superficie);
 }
 
-/* Imágenes de portfolio */
-.portfolio-item img {
+/* Imágenes de casos */
+.case-card img {
     width: 100%;
     height: 250px;
     object-fit: cover;
@@ -441,18 +609,15 @@ header.scrolled {
     transition: transform 0.3s ease;
 }
 
-/* --- Video embebido (iframe responsive) ---
-   Se usa dentro de items con data-type="video".
-   El iframe mantiene proporción 16:9 independientemente del tamaño del contenedor.
-*/
-.portfolio-video {
+/* Video embebido */
+.case-video {
     position: relative;
     width: 100%;
-    padding-top: 56.25%; /* Relación 16:9 */
+    padding-top: 56.25%;
     height: 0;
 }
 
-.portfolio-video iframe {
+.case-video iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -461,21 +626,14 @@ header.scrolled {
     border: none;
 }
 
-/* --- Overlay con información del proyecto ---
-   Se muestra al hacer hover (escritorio) o al tocar (móvil).
-   
-   IMPORTANTE: pointer-events: none permite que los clics pasen a través
-   del overlay hacia el contenido debajo (iframe de video, enlaces, etc.).
-   Solo los elementos interactivos dentro del overlay (botones, enlaces)
-   recuperan pointer-events: auto.
-*/
-.portfolio-overlay {
+/* Overlay con información del caso */
+.case-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(6, 6, 9, 0.85);
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -488,51 +646,247 @@ header.scrolled {
     pointer-events: none;
 }
 
-/* Elementos interactivos dentro del overlay recuperan clics */
-.portfolio-overlay .btn,
-.portfolio-overlay a {
+.case-overlay .btn,
+.case-overlay a {
     pointer-events: auto;
 }
 
-/* Hover en escritorio */
-.portfolio-item:hover .portfolio-overlay {
+.case-card:hover .case-overlay {
     opacity: 1;
 }
 
-.portfolio-item:hover img {
+.case-card:hover img {
     transform: scale(1.1);
 }
 
-.portfolio-overlay h3 {
-    font-size: 1.5rem;
+/* Píldora de categoría */
+.category-pill {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+}
+
+.cat-ia { background-color: rgba(0, 102, 255, 0.3); color: #4D94FF; border: 1px solid rgba(0, 102, 255, 0.5); }
+.cat-auto { background-color: rgba(0, 212, 255, 0.2); color: #00D4FF; border: 1px solid rgba(0, 212, 255, 0.4); }
+.cat-dev { background-color: rgba(40, 167, 69, 0.2); color: #5CB85C; border: 1px solid rgba(40, 167, 69, 0.4); }
+.cat-datos { background-color: rgba(255, 193, 7, 0.2); color: #FFC107; border: 1px solid rgba(255, 193, 7, 0.4); }
+.cat-consultoria { background-color: rgba(220, 53, 69, 0.2); color: #DC3545; border: 1px solid rgba(220, 53, 69, 0.4); }
+
+.case-overlay h3 {
+    font-size: 1.3rem;
     margin-bottom: 0.5rem;
 }
 
-.portfolio-overlay p {
+.case-overlay p {
     color: var(--color-texto-secundario);
     font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Resultado medible del caso */
+.case-result {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-acento);
+    font-weight: 500;
     margin-bottom: 1rem;
 }
 
-/* --- Items tipo enlace ---
-   Cuando el portfolio-item es un <a>, eliminamos el estilo base de enlaces.
-*/
-.portfolio-item-link {
+.case-result i {
+    font-size: 0.9rem;
+}
+
+/* Items tipo enlace */
+.case-card-link {
     display: block;
     color: inherit;
     font-size: inherit;
     font-weight: inherit;
-    text-shadow: none;
 }
 
-.portfolio-item-link:hover {
+.case-card-link:hover {
     color: inherit;
 }
 
 
 /* --------------------------------------------------------------------------
-   11. SECCIÓN DE CONTACTO
-   Layout de 2 columnas: información de contacto + formulario.
+   13. SECCIÓN SOBRE NOSOTROS
+   -------------------------------------------------------------------------- */
+#nosotros {
+    background-color: var(--color-fondo);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: var(--border-radius-card);
+    box-shadow: var(--sombra-card);
+}
+
+.about-text h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.about-text p {
+    color: var(--color-texto-secundario);
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+/* Misión y Visión */
+.mision-vision {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.mv-card {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--border-radius-card);
+    padding: 2rem;
+    border-left: 4px solid var(--color-primario);
+}
+
+.mv-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-primario);
+}
+
+.mv-card p {
+    color: var(--color-texto-secundario);
+    font-size: 0.95rem;
+}
+
+/* Fundador */
+.founder-section {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.founder-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-primario);
+    box-shadow: var(--sombra-glow);
+    margin-bottom: 1.5rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   14. SECCIÓN DEL BLOG
+   -------------------------------------------------------------------------- */
+#blog {
+    background-color: var(--color-fondo);
+}
+
+/* Filtros de categoría */
+.blog-filters {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 6px 16px;
+    border: 1px solid var(--color-borde);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-principal);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: #fff;
+}
+
+/* Grid de artículos */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.blog-card {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--border-radius-card);
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-primario);
+}
+
+.blog-image {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.blog-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.blog-image .category-pill {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.blog-content {
+    padding: 1.5rem;
+}
+
+.blog-content time {
+    font-size: 0.8rem;
+    color: var(--color-texto-secundario);
+}
+
+.blog-content h3 {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.blog-content p {
+    color: var(--color-texto-secundario);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   15. SECCIÓN DE CONTACTO
    -------------------------------------------------------------------------- */
 #contacto {
     background-color: var(--color-superficie);
@@ -567,7 +921,7 @@ header.scrolled {
     margin-right: 1rem;
 }
 
-/* --- Formulario --- */
+/* Formulario */
 .contact-form {
     background-color: var(--color-fondo);
     padding: var(--espaciado-card);
@@ -586,7 +940,8 @@ header.scrolled {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: 12px;
     background-color: var(--color-superficie);
@@ -596,10 +951,21 @@ header.scrolled {
     font-family: var(--fuente-principal);
     font-size: 1rem;
     transition: border-color 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/* Flecha personalizada para select */
+.form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239090A0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
 }
 
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
     outline: none;
     border-color: var(--color-primario);
 }
@@ -609,7 +975,7 @@ header.scrolled {
     min-height: 120px;
 }
 
-/* --- Mensajes de estado del formulario --- */
+/* Mensajes de estado del formulario */
 #form-message {
     text-align: center;
     margin-top: 1rem;
@@ -633,45 +999,150 @@ header.scrolled {
 
 
 /* --------------------------------------------------------------------------
-   12. FOOTER
-   Pie de página con redes sociales y copyright.
-   Usa un negro más profundo (--color-fondo-footer) para diferenciarlo del body.
+   16. FOOTER MULTI-COLUMNA
    -------------------------------------------------------------------------- */
 footer {
     background-color: var(--color-fondo-footer);
-    padding: 2rem 0;
-    text-align: center;
+    padding: 3rem 0 1.5rem;
+    border-top: 1px solid var(--color-borde);
 }
 
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-brand {
+    max-width: 300px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.footer-logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.footer-logo span {
+    font-family: var(--fuente-secundaria);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-primario);
+}
+
+.footer-brand p {
+    color: var(--color-texto-secundario);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.footer-links h4 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--color-texto-principal);
+}
+
+.footer-links ul {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--color-texto-secundario);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--color-primario);
+}
+
+/* Redes sociales en footer */
 .social-links {
+    display: flex;
+    gap: 0.75rem;
     margin-bottom: 1rem;
 }
 
 .social-links a {
-    font-size: 1.5rem;
-    margin: 0 10px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--color-borde);
     color: var(--color-texto-secundario);
-    transition: color 0.3s ease;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .social-links a:hover {
-    color: var(--color-primario);
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+    color: #fff;
 }
 
-footer p {
-    font-size: 0.9rem;
+/* Botón de Portafolio Técnico */
+.footer-cta {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+}
+
+/* Fila inferior del footer */
+.footer-bottom {
+    border-top: 1px solid var(--color-borde);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.footer-bottom p {
+    font-size: 0.85rem;
     color: var(--color-texto-secundario);
+}
+
+.footer-tagline {
+    font-style: italic;
+    color: var(--color-texto-secundario) !important;
 }
 
 
 /* --------------------------------------------------------------------------
-   13. RESPONSIVE — MÓVIL (< 768px)
-   Ajustes para pantallas pequeñas: menú hamburguesa, layouts de 1 columna,
-   overlay de portfolio siempre visible, logo reducido.
+   17. ANIMACIONES
+   -------------------------------------------------------------------------- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --------------------------------------------------------------------------
+   18. RESPONSIVE — MÓVIL (< 768px)
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
 
-    /* --- Navegación móvil --- */
+    /* Navegación móvil */
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -681,7 +1152,7 @@ footer p {
         width: 100%;
         text-align: center;
         transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.1);
         padding: 2rem 0;
         visibility: hidden;
         pointer-events: none;
@@ -697,7 +1168,6 @@ footer p {
         display: flex;
     }
 
-    /* Animación del hamburger a cruz (X) */
     .hamburger.active .bar:nth-child(2) {
         opacity: 0;
     }
@@ -710,65 +1180,111 @@ footer p {
         transform: translateY(-8px) rotate(-45deg);
     }
 
-    /* --- Logo reducido en móvil --- */
+    /* Logo reducido */
     .logo-circular {
         width: 50px;
         height: 50px;
     }
 
-    /* --- Hero: una sola columna, imagen primero --- */
+    /* Hero: una columna */
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
     }
 
     .hero-text h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+    }
+
+    .hero-text p {
+        max-width: 100%;
+    }
+
+    .hero-ctas {
+        justify-content: center;
     }
 
     .hero-image {
         order: -1;
     }
 
-    /* --- Contacto: una sola columna --- */
+    /* Pilares: 2 columnas */
+    .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Valores: 1 columna */
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Contacto: 1 columna */
     .contact-wrapper {
         grid-template-columns: 1fr;
     }
 
-    /* --- Portfolio: overlay siempre visible en móvil ---
-         En pantallas táctiles no hay hover, así que el overlay se muestra
-         con opacidad reducida para que el usuario sepa que es interactuable.
-         Al tocar, se aplica la clase .tapped que muestra el overlay completo.
-         pointer-events: none permite que el iframe reciba clics (play del video).
-    */
-    .portfolio-overlay {
+    /* Sobre nosotros: 1 columna */
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mision-vision {
+        grid-template-columns: 1fr;
+    }
+
+    /* Footer: 1 columna */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-brand {
+        max-width: 100%;
+    }
+
+    .footer-logo {
+        justify-content: center;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    /* Portfolio: overlay táctil */
+    .case-overlay {
         opacity: 0.6;
         pointer-events: none;
     }
 
-    .portfolio-item.tapped .portfolio-overlay {
+    .case-card.tapped .case-overlay {
         opacity: 1;
     }
 
-    .portfolio-item.tapped img {
+    .case-card.tapped img {
         transform: scale(1.1);
     }
 
-    .portfolio-overlay p {
+    .case-overlay p {
         font-size: 0.8rem;
     }
 
-    /* --- Reducir padding de secciones en móvil --- */
+    /* Reducir padding de secciones */
     .section-spacing {
         padding: 50px 0;
     }
+
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 2rem; }
 }
 
 
 /* --------------------------------------------------------------------------
-   14. RESPONSIVE — TABLET (769px - 1024px)
-   Ajustes intermedios para tablets y pantallas pequeñas de escritorio.
-   El hero mantiene 2 columnas pero con tipografía reducida.
+   19. RESPONSIVE — TABLET (769px - 1024px)
    -------------------------------------------------------------------------- */
 @media (min-width: 769px) and (max-width: 1024px) {
 
@@ -784,8 +1300,21 @@ footer p {
         font-size: 2rem;
     }
 
+    .pillars-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
     .services-grid,
-    .portfolio-grid {
+    .blog-grid,
+    .cases-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
     }
 }
