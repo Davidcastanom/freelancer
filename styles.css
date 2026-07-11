@@ -463,6 +463,11 @@ header.scrolled {
 
 /* --- Overlay con información del proyecto ---
    Se muestra al hacer hover (escritorio) o al tocar (móvil).
+   
+   IMPORTANTE: pointer-events: none permite que los clics pasen a través
+   del overlay hacia el contenido debajo (iframe de video, enlaces, etc.).
+   Solo los elementos interactivos dentro del overlay (botones, enlaces)
+   recuperan pointer-events: auto.
 */
 .portfolio-overlay {
     position: absolute;
@@ -480,6 +485,13 @@ header.scrolled {
     opacity: 0;
     transition: opacity 0.3s ease;
     text-align: center;
+    pointer-events: none;
+}
+
+/* Elementos interactivos dentro del overlay recuperan clics */
+.portfolio-overlay .btn,
+.portfolio-overlay a {
+    pointer-events: auto;
 }
 
 /* Hover en escritorio */
@@ -727,9 +739,11 @@ footer p {
          En pantallas táctiles no hay hover, así que el overlay se muestra
          con opacidad reducida para que el usuario sepa que es interactuable.
          Al tocar, se aplica la clase .tapped que muestra el overlay completo.
+         pointer-events: none permite que el iframe reciba clics (play del video).
     */
     .portfolio-overlay {
         opacity: 0.6;
+        pointer-events: none;
     }
 
     .portfolio-item.tapped .portfolio-overlay {
