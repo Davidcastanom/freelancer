@@ -585,39 +585,57 @@ header.scrolled {
     background-color: var(--color-fondo);
 }
 
-.cases-grid {
+/* --- Grid de casos de éxito --- */
+.portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
 }
 
-.case-card {
+/* --- Cada caso de éxito --- */
+.portfolio-item {
     position: relative;
-    overflow: hidden;
     border-radius: var(--border-radius-card);
-    box-shadow: var(--sombra-card);
-    cursor: pointer;
+    overflow: hidden;
     background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
 }
 
-/* Imágenes de casos */
-.case-card img {
+.portfolio-item:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--sombra-card-hover);
+    border-color: var(--color-primario);
+}
+
+/* --- Contenedor de imagen/video --- */
+.portfolio-img {
+    position: relative;
     width: 100%;
-    height: 250px;
+    height: 280px;
+    overflow: hidden;
+}
+
+.portfolio-img img {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
 }
 
-/* Video embebido */
-.case-video {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%;
-    height: 0;
+.portfolio-item:hover .portfolio-img img {
+    transform: scale(1.08);
 }
 
-.case-video iframe {
+/* --- Video embebido (YouTube / Google Drive) --- */
+.portfolio-video {
+    height: auto;
+    aspect-ratio: 16 / 9;
+}
+
+.portfolio-video iframe {
     position: absolute;
     top: 0;
     left: 0;
@@ -626,49 +644,112 @@ header.scrolled {
     border: none;
 }
 
-/* Overlay con información del caso */
-.case-overlay {
+/* --- Overlay con información (aparece en hover) --- */
+.portfolio-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(6, 6, 9, 0.85);
+    background: linear-gradient(
+        to top,
+        rgba(6, 6, 9, 0.95) 0%,
+        rgba(6, 6, 9, 0.7) 40%,
+        rgba(6, 6, 9, 0.3) 100%
+    );
     color: #fff;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-end;
     padding: 1.5rem;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    text-align: center;
+    transition: opacity 0.35s ease;
     pointer-events: none;
 }
 
-.case-overlay .btn,
-.case-overlay a {
-    pointer-events: auto;
-}
-
-.case-card:hover .case-overlay {
+.portfolio-item:hover .portfolio-overlay {
     opacity: 1;
 }
 
-.case-card:hover img {
-    transform: scale(1.1);
+/* --- Contenido del overlay --- */
+.portfolio-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
-/* Píldora de categoría */
+.portfolio-info .category-pill {
+    align-self: flex-start;
+    margin-bottom: 0.25rem;
+}
+
+.portfolio-info h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #fff;
+}
+
+.portfolio-info > p {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* --- Resultado medible --- */
+.portfolio-metric {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--color-acento);
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+.portfolio-metric i {
+    font-size: 0.8rem;
+}
+
+.portfolio-metric strong {
+    color: var(--color-acento);
+}
+
+/* --- Botón del overlay --- */
+.portfolio-btn {
+    align-self: flex-start;
+    margin-top: 0.75rem;
+    pointer-events: auto;
+}
+
+/* --- Filtros de tipo --- */
+.portfolio-filters {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+/* --- Touch en móvil: overlay visible --- */
+.portfolio-item.tapped .portfolio-overlay {
+    opacity: 1;
+}
+
+.portfolio-item.tapped .portfolio-img img {
+    transform: scale(1.08);
+}
+
+/* --- Píldora de categoría (compartida por blog y portfolio) --- */
 .category-pill {
     display: inline-block;
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding: 4px 12px;
+    padding: 5px 14px;
     border-radius: 20px;
-    margin-bottom: 0.75rem;
 }
 
 .cat-ia { background-color: rgba(0, 102, 255, 0.3); color: #4D94FF; border: 1px solid rgba(0, 102, 255, 0.5); }
@@ -676,44 +757,6 @@ header.scrolled {
 .cat-dev { background-color: rgba(40, 167, 69, 0.2); color: #5CB85C; border: 1px solid rgba(40, 167, 69, 0.4); }
 .cat-datos { background-color: rgba(255, 193, 7, 0.2); color: #FFC107; border: 1px solid rgba(255, 193, 7, 0.4); }
 .cat-consultoria { background-color: rgba(220, 53, 69, 0.2); color: #DC3545; border: 1px solid rgba(220, 53, 69, 0.4); }
-
-.case-overlay h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-}
-
-.case-overlay p {
-    color: var(--color-texto-secundario);
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
-}
-
-/* Resultado medible del caso */
-.case-result {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-    color: var(--color-acento);
-    font-weight: 500;
-    margin-bottom: 1rem;
-}
-
-.case-result i {
-    font-size: 0.9rem;
-}
-
-/* Items tipo enlace */
-.case-card-link {
-    display: block;
-    color: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-}
-
-.case-card-link:hover {
-    color: inherit;
-}
 
 
 /* --------------------------------------------------------------------------
@@ -1635,21 +1678,40 @@ footer {
         text-align: center;
     }
 
-    /* Portfolio: overlay táctil */
-    .case-overlay {
-        opacity: 0.6;
+    /* Portfolio: responsive */
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .portfolio-img {
+        height: 220px;
+    }
+
+    .portfolio-overlay {
+        opacity: 1;
+        background: linear-gradient(
+            to top,
+            rgba(6, 6, 9, 0.95) 0%,
+            rgba(6, 6, 9, 0.6) 50%,
+            transparent 100%
+        );
         pointer-events: none;
     }
 
-    .case-card.tapped .case-overlay {
-        opacity: 1;
+    .portfolio-item.tapped .portfolio-overlay {
+        pointer-events: auto;
     }
 
-    .case-card.tapped img {
-        transform: scale(1.1);
+    .portfolio-info h3 {
+        font-size: 1.05rem;
     }
 
-    .case-overlay p {
+    .portfolio-info > p {
+        font-size: 0.82rem;
+    }
+
+    .portfolio-metric {
         font-size: 0.8rem;
     }
 
@@ -1737,8 +1799,8 @@ footer {
 
     .services-grid,
     .blog-grid,
-    .cases-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    .portfolio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
 
     .footer-grid {

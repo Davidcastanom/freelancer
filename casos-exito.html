@@ -47,176 +47,251 @@
             <div class="container">
                 <h2 class="section-title">Casos de Éxito</h2>
                 <p class="section-subtitle">Descubre cómo hemos transformado procesos y generado resultados medibles para nuestros clientes</p>
+
+                <!-- ==========================================
+                     FILTROS POR TIPO
+                     ========================================== -->
                 <div class="portfolio-filters">
                     <button class="filter-btn active" data-filter="all">Todos</button>
                     <button class="filter-btn" data-filter="imagen">Imágenes</button>
                     <button class="filter-btn" data-filter="video">Videos</button>
                     <button class="filter-btn" data-filter="enlace">Enlaces</button>
                 </div>
+
+                <!-- ==========================================
+                     GRID DE CASOS DE ÉXITO
+                     ========================================== -->
                 <div class="portfolio-grid">
+
                     <!--
                     ===========================================================
-                    ✋ LO QUE DEBES HACER TÚ EN ESTA PÁGINA
+                    ✋ GUÍA COMPLETA PARA EDITAR ESTA PÁGINA
                     ===========================================================
 
-                    Cada bloque de abajo es un "Caso de Éxito". Para agregar uno nuevo:
+                    TIPOS DE CASO DE ÉXITO:
+                    ┌─────────────┬──────────────────────────────────────────────┐
+                    │ Tipo        │ Cuándo usarlo                                │
+                    ├─────────────┼──────────────────────────────────────────────┤
+                    │ imagen      │ Tienes una captura de pantalla del resultado │
+                    │ video       │ Tienes un video en YouTube o Google Drive    │
+                    │ enlace      │ Tienes un sitio web o app en producción      │
+                    └─────────────┴──────────────────────────────────────────────┘
 
-                    1. COPIA cualquiera de los bloques <div class="portfolio-item"> existentes
-                    2. PÉGALO al final del grid (antes del comentario "Para agregar más")
-                    3. CAMBIA estos campos:
-                       - data-type="imagen" → imagen | video | enlace
-                       - src de la imagen → tu captura real del proyecto
-                       - alt → descripción del caso
-                       - h3 → nombre del proyecto
-                       - p → descripción de qué hiciste y qué resultado obtuviste
-                       - .portfolio-metric → resultado medible (ej: "+40% en productividad")
-                       - href del botón → link real al proyecto o demo
+                    PARA AGREGAR UN NUEVO CASO:
+                    1. Copia el bloque <div class="portfolio-item"> completo
+                    2. Pégalo al final del .portfolio-grid
+                    3. Cambia data-type="imagen" por el tipo correcto
+                    4. Edita los campos marcados con ✋
 
-                    Para VIDEO (data-type="video"):
-                    - Cambia el src del iframe por tu video de YouTube
-                    - Formato: https://www.youtube.com/embed/TU_VIDEO_ID
-                    - Para Google Drive: usa el formato embed del enlace compartido
+                    ESTRUCTURA DE CADA CASO:
+                    ┌─────────────────────────────────────────────┐
+                    │ .portfolio-item                            │
+                    │   .portfolio-img                           │
+                    │     <img> o <iframe>   ← ✋ TU CONTENIDO   │
+                    │   .portfolio-overlay                       │
+                    │     .portfolio-info                        │
+                    │       .category-pill     ← ✋ CATEGORÍA    │
+                    │       h3                 ← ✋ TÍTULO       │
+                    │       p                  ← ✋ DESCRIPCIÓN  │
+                    │       .portfolio-metric  ← ✋ RESULTADO    │
+                    │       .portfolio-btn     ← ✋ ENLACE       │
+                    └─────────────────────────────────────────────┘
 
-                    Para ENLACE (data-type="enlace"):
-                    - Cambia el href del botón por la URL del sitio/app
+                    GUARDAR IMÁGENES:
+                    - Ruta: assets/img/portafolio/
+                    - Tamaño ideal: 800x500px (relación 16:10)
+                    - Formatos: .png, .jpg, .webp
 
-                    IMÁGENES:
-                    - Guarda las imágenes en: assets/img/portafolio/
-                    - Tamaño recomendado: 800x600px o 1200x800px
-                    - Formato: .png o .jpg
+                    CATEGORÍAS DISPONIBLES:
+                    - cat-ia           → Inteligencia Artificial
+                    - cat-auto         → Automatización
+                    - cat-dev          → Desarrollo Web
+                    - cat-datos        → Análisis de Datos
+                    - cat-consultoria  → Consultoría
                     ===========================================================
                     -->
-                    
-                    <!-- ============================================ -->
-                    <!-- CASO DE ÉXITO #1 — TIPO IMAGEN -->
-                    <!-- ============================================ -->
-                    <!--
-                         ✋ CAMBIA:
-                         1. src → tu imagen real
-                         2. alt → descripción
-                         3. h3 → nombre del proyecto
-                         4. p → qué hiciste
-                         5. .portfolio-metric → resultado medible
-                         6. href → link al proyecto
-                    -->
-                    <div class="portfolio-item fade-in" data-type="imagen">
-                        <div class="portfolio-img">
-                            <img src="assets/img/portafolio/placeholder-1.png" alt="Caso de Éxito #1 — Imagen del proyecto">
-                            <div class="portfolio-overlay">
-                                <div class="portfolio-info">
-                                    <h3>Nombre del Proyecto</h3>
-                                    <p>Descripción breve del caso de éxito. Aquí explica qué problema resolviste y cómo lo hiciste.</p>
-                                    <p class="portfolio-metric"><strong>Resultado:</strong> +40% en productividad</p>
-                                    <a href="https://ejemplo.com/proyecto1" class="btn btn-sm portfolio-btn" target="_blank">Ver Proyecto</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- ============================================ -->
-                    <!-- CASO DE ÉXITO #2 — TIPO VIDEO -->
-                    <!-- ============================================ -->
-                    <!-- INSTRUCCIONES:
-                         1. Cambia el src del iframe por tu video real de YouTube
-                         2. Para YouTube: usa https://www.youtube.com/embed/TU_ID_DEL_VIDEO
-                         3. Para videos de Google Drive: convierte el enlace público a formato embed
-                         4. Cambia el título y la descripción
-                         5. Actualiza la métrica
-                         6. Si el video es de YouTube, pon el enlace del botón al video original
-                    -->
-                    <div class="portfolio-item fade-in" data-type="video">
-                        <div class="portfolio-img portfolio-video">
-                            <iframe src="https://www.youtube.com/embed/VIDEO_ID_AQUI" title="Video del Caso de Éxito" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
-                            <div class="portfolio-overlay">
-                                <div class="portfolio-info">
-                                    <h3>Nombre del Proyecto en Video</h3>
-                                    <p>Descripción breve del caso de éxito en video. Muestra el proceso o resultado visualmente.</p>
-                                    <p class="portfolio-metric"><strong>Resultado:</strong> Reducción del 60% en tiempo de proceso</p>
-                                    <a href="https://www.youtube.com/watch?v=TU_ID_DEL_VIDEO" class="btn btn-sm portfolio-btn" target="_blank">Ver en YouTube</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ============================================ -->
-                    <!-- CASO DE ÉXITO #3 — TIPO ENLACE -->
-                    <!-- ============================================ -->
-                    <!-- INSTRUCCIONES:
-                         1. Cambia el src de la imagen por una captura del sitio/app
-                         2. Cambia el href del botón por la URL real del proyecto
-                         3. Cambia el título, descripción y métrica
-                    -->
-                    <div class="portfolio-item fade-in" data-type="enlace">
-                        <div class="portfolio-img">
-                            <img src="assets/img/portafolio/placeholder-3.png" alt="Caso de Éxito #3 — Enlace al proyecto">
-                            <div class="portfolio-overlay">
-                                <div class="portfolio-info">
-                                    <h3>Nombre del Proyecto Web</h3>
-                                    <p>Descripción breve del sitio web o aplicación que desarrollaste.</p>
-                                    <p class="portfolio-metric"><strong>Resultado:</strong> +120% en tráfico web</p>
-                                    <a href="https://ejemplo.com/proyecto3" class="btn btn-sm portfolio-btn" target="_blank">Ver Sitio</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ============================================ -->
-                    <!-- CASO DE ÉXITO #4 — TIPO IMAGEN -->
+                    <!-- CASO #1 — IMAGEN (Ejemplo: Dashboard de IA) -->
                     <!-- ============================================ -->
                     <div class="portfolio-item fade-in" data-type="imagen">
                         <div class="portfolio-img">
-                            <img src="assets/img/portafolio/placeholder-4.png" alt="Caso de Éxito #4 — Imagen del proyecto">
+                            <!--
+                            ✋ CAMBIA ESTA IMAGEN:
+                            1. Guarda tu imagen en assets/img/portafolio/mi-proyecto.png
+                            2. Cambia el src de abajo por: assets/img/portafolio/mi-proyecto.png
+                            3. Cambia el alt por una descripción corta
+                            -->
+                            <img src="https://via.placeholder.com/800x500/0A0A0F/0066FF?text=Dashboard+IA" alt="Dashboard de inteligencia artificial para análisis de datos">
                             <div class="portfolio-overlay">
                                 <div class="portfolio-info">
-                                    <h3>Otro Proyecto Destacado</h3>
-                                    <p>Descripción breve de otro caso de éxito que muestre variedad en tus servicios.</p>
-                                    <p class="portfolio-metric"><strong>Resultado:</strong> Automatización completa del flujo</p>
-                                    <a href="https://ejemplo.com/proyecto4" class="btn btn-sm portfolio-btn" target="_blank">Ver Proyecto</a>
+                                    <span class="category-pill cat-ia">IA</span>
+                                    <h3>Dashboard de IA para PyME</h3>
+                                    <p>Implementamos un dashboard inteligente que analiza las ventas automáticamente y genera reportes diarios con IA.</p>
+                                    <p class="portfolio-metric"><i class="fas fa-chart-line"></i> <strong>Resultado:</strong> +45% en decisiones basadas en datos</p>
+                                    <a href="https://ejemplo.com/dashboard" class="btn btn-sm portfolio-btn" target="_blank" rel="noopener noreferrer">Ver Proyecto</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- ============================================ -->
-                    <!-- CASO DE ÉXITO #5 — TIPO VIDEO -->
+                    <!-- CASO #2 — VIDEO YOUTUBE                      -->
+                    <!-- ============================================ -->
+                    <!--
+                    ✋ PARA PONER TU VIDEO DE YOUTUBE:
+                    1. Ve a tu video en YouTube
+                    2. Click en "Compartir" → "Embeber"
+                    3. Copia solo el ID del video (la parte después de /embed/)
+                       Ejemplo: https://www.youtube.com/embed/dQw4w9WgXcQ
+                       El ID es: dQw4w9WgXcQ
+                    4. Reemplaza el ID en el src del iframe de abajo
+                    5. Cambia también el href del botón con el link normal del video
+                    -->
+                    <div class="portfolio-item fade-in" data-type="video">
+                        <div class="portfolio-img portfolio-video">
+                            <!--
+                            ✋ CAMBIA EL VIDEO:
+                            - Reemplaza "dQw4w9WgXcQ" por el ID de TU video de YouTube
+                            - El formato SIEMPRE es: https://www.youtube.com/embed/VIDEO_ID
+                            - Este es un video de ejemplo funcional para probar
+                            -->
+                            <iframe 
+                                src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                title="Demo: Automatización con IA" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen 
+                                loading="lazy">
+                            </iframe>
+                            <div class="portfolio-overlay">
+                                <div class="portfolio-info">
+                                    <span class="category-pill cat-auto">Automatización</span>
+                                    <h3>Demo: Proceso Automatizado con IA</h3>
+                                    <p>Video demostrativo de un flujo de trabajo automatizado que reduce tareas manuales en un 70%.</p>
+                                    <p class="portfolio-metric"><i class="fas fa-bolt"></i> <strong>Resultado:</strong> -70% en tareas manuales</p>
+                                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn btn-sm portfolio-btn" target="_blank" rel="noopener noreferrer">Ver en YouTube</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================ -->
+                    <!-- CASO #3 — VIDEO GOOGLE DRIVE                  -->
+                    <!-- ============================================ -->
+                    <!--
+                    ✋ PARA PONER TU VIDEO DE GOOGLE DRIVE:
+                    1. Sube tu video a Google Drive
+                    2. Click derecho → "Compartir" → "Acceso general" → "Cualquier persona con el link"
+                    3. Copia el link. Será algo así:
+                       https://drive.google.com/file/d/1ABC123xyz.../view?usp=sharing
+                    4. Convierte el link a formato embed:
+                       - COPIA el ID del archivo (la parte /d/XXXXX/)
+                       - ELIMINA todo después de /preview
+                       - El link embed queda así:
+                         https://drive.google.com/file/d/1ABC123xyz.../preview
+                    5. Reemplaza el src del iframe de abajo
+
+                    EJEMPLO:
+                    - Link original: https://drive.google.com/file/d/1xN5gHJQ7/view?usp=sharing
+                    - Link embed:    https://drive.google.com/file/d/1xN5gHJQ7/preview
+                    -->
+                    <div class="portfolio-item fade-in" data-type="video">
+                        <div class="portfolio-img portfolio-video">
+                            <!--
+                            ✋ CAMBIA EL VIDEO DE DRIVE:
+                            - Reemplaza el src por tu link de Google Drive en formato /preview
+                            - Ejemplo real: https://drive.google.com/file/d/TU_FILE_ID/preview
+                            - Este es un video de ejemplo (usa el video oficial de Google como placeholder)
+                            -->
+                            <iframe 
+                                src="https://drive.google.com/file/d/0B2oG8mRdB21HbVdGNGRTeHlsSm8/preview" 
+                                title="Caso de Éxito en Google Drive" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen 
+                                loading="lazy">
+                            </iframe>
+                            <div class="portfolio-overlay">
+                                <div class="portfolio-info">
+                                    <span class="category-pill cat-dev">Desarrollo</span>
+                                    <h3>App Web — Gestión de Inventarios</h3>
+                                    <p>Aplicación web desarrollada para automatizar el control de inventario de una empresa de retail.</p>
+                                    <p class="portfolio-metric"><i class="fas fa-boxes"></i> <strong>Resultado:</strong> 100% control en tiempo real</p>
+                                    <a href="https://ejemplo.com/inventario" class="btn btn-sm portfolio-btn" target="_blank" rel="noopener noreferrer">Ver Demo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================ -->
+                    <!-- CASO #4 — ENLACE (Sitio web en producción)   -->
+                    <!-- ============================================ -->
+                    <!--
+                    ✋ PARA PONER TU SITIO WEB:
+                    1. Cambia el src de la imagen por una captura de tu sitio
+                    2. Cambia el href del botón por la URL de tu sitio real
+                    3. Actualiza título, descripción y métrica
+                    -->
+                    <div class="portfolio-item fade-in" data-type="enlace">
+                        <div class="portfolio-img">
+                            <img src="https://via.placeholder.com/800x500/0A0A0F/00D4FF?text=Sitio+Web+Flujo+Base" alt="Sitio web de Flujo Base — Transformación Digital">
+                            <div class="portfolio-overlay">
+                                <div class="portfolio-info">
+                                    <span class="category-pill cat-dev">Desarrollo</span>
+                                    <h3>Sitio Web Corporativo</h3>
+                                    <p>Diseño y desarrollo del sitio web de Flujo Base con integración de IA, SEO optimizado y diseño responsive.</p>
+                                    <p class="portfolio-metric"><i class="fas fa-globe"></i> <strong>Resultado:</strong> +200% en tráfico orgánico</p>
+                                    <a href="https://davidcastanom.github.io/freelancer/" class="btn btn-sm portfolio-btn" target="_blank" rel="noopener noreferrer">Ver Sitio</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================ -->
+                    <!-- CASO #5 — IMAGEN (Otro ejemplo)              -->
+                    <!-- ============================================ -->
+                    <div class="portfolio-item fade-in" data-type="imagen">
+                        <div class="portfolio-img">
+                            <img src="https://via.placeholder.com/800x500/0A0A0F/28a745?text=Chatbot+IA" alt="Chatbot inteligente para atención al cliente">
+                            <div class="portfolio-overlay">
+                                <div class="portfolio-info">
+                                    <span class="category-pill cat-ia">IA</span>
+                                    <h3>Chatbot Inteligente para Ventas</h3>
+                                    <p>Chatbot con IA que atiende clientes 24/7, califica prospectos y agenda reuniones automáticamente.</p>
+                                    <p class="portfolio-metric"><i class="fas fa-robot"></i> <strong>Resultado:</strong> 3x más prospectos calificados</p>
+                                    <a href="https://ejemplo.com/chatbot" class="btn btn-sm portfolio-btn" target="_blank" rel="noopener noreferrer">Ver Demo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ============================================ -->
+                    <!-- CASO #6 — VIDEO YOUTUBE (Otro ejemplo)       -->
                     <!-- ============================================ -->
                     <div class="portfolio-item fade-in" data-type="video">
                         <div class="portfolio-img portfolio-video">
-                            <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" title="Video del Caso de Éxito 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            <iframe 
+                                src="https://www.youtube.com/embed/jNQXAC9IVRw" 
+                                title="Primer video de YouTube — Ejemplo" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen 
+                                loading="lazy">
+                            </iframe>
                             <div class="portfolio-overlay">
                                 <div class="portfolio-info">
-                                    <h3>Otro Proyecto en Video</h3>
-                                    <p>Descripción breve de otro caso de éxito documentado en video.</p>
-                                    <p class="portfolio-metric"><strong>Resultado:</strong> Ahorro de 20 horas mensuales</p>
-                                    <a href="https://www.youtube.com/watch?v=TU_ID_2" class="btn btn-sm portfolio-btn" target="_blank">Ver en YouTube</a>
+                                    <span class="category-pill cat-datos">Datos</span>
+                                    <h3>Análisis de Datos en Tiempo Real</h3>
+                                    <p>Dashboard interactivo que visualiza KPIs del negocio en tiempo real con gráficas dinámicas.</p>
+                                    <p class="portfolio-metric"><i class="fas fa-database"></i> <strong>Resultado:</strong> Visibilidad 100% de métricas</p>
+                                    <a href="https://www.youtube.com/watch?v=jNQXAC9IVRw" class="btn btn-sm portfolio-btn" target="_blank" rel="noopener noreferrer">Ver Video</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- ============================================ -->
-                    <!-- CASO DE ÉXITO #6 — TIPO ENLACE -->
-                    <!-- ============================================ -->
-                    <div class="portfolio-item fade-in" data-type="enlace">
-                        <div class="portfolio-img">
-                            <img src="assets/img/portafolio/placeholder-6.png" alt="Caso de Éxito #6 — Enlace al proyecto">
-                            <div class="portfolio-overlay">
-                                <div class="portfolio-info">
-                                    <h3>Dashboard de Análisis</h3>
-                                    <p>Descripción breve de un dashboard o aplicación de datos que creaste.</p>
-                                    <p class="portfolio-metric"><strong>Resultado:</strong> Visibilidad 100% de KPIs en tiempo real</p>
-                                    <a href="https://ejemplo.com/dashboard" class="btn btn-sm portfolio-btn" target="_blank">Ver Demo</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Para agregar más casos de éxito, copia cualquiera de los bloques anteriores y cambia:
-                         - data-type="imagen|video|enlace"
-                         - src de la imagen o iframe
-                         - Título, descripción, métrica y enlace del botón
-                    -->
-                </div>
+                </div><!-- /.portfolio-grid -->
             </div>
         </section>
     </main>
@@ -273,5 +348,4 @@
     
     <script src="script.js" defer></script>
 </body>
-
 </html>
