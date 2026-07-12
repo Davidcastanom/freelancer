@@ -165,6 +165,7 @@ El sitio implementa múltiples capas de protección:
 | CSS3 | Estilos con variables, grid, flexbox, animaciones |
 | JavaScript vanilla | Interactividad, fetch API, IntersectionObserver |
 | DOMPurify 3.0.6 | Sanitización de HTML (prevención XSS) |
+| Cloudinary | CDN de imágenes (WebP automático, compresión, cache) |
 | Notion API | Base de datos del blog (vía Make) |
 | Make (Integromat) | Webhooks para blog y formulario |
 | FormSubmit.co | Envío de formularios por email |
@@ -178,13 +179,6 @@ El sitio implementa múltiples capas de protección:
 
 ```
 freelancer/
-├── assets/
-│   └── img/
-│       ├── bg-hero.png              # Imagen de fondo global (Cloudinary)
-│       ├── favicon1.png             # Favicon del sitio (Cloudinary)
-│       ├── foto-perfil.jpg          # Foto del fundador (Cloudinary)
-│       ├── inicio.png               # Imagen hero de inicio (Cloudinary)
-│       └── Logo FLUJO BASE ...png   # Logo oficial (Cloudinary)
 ├── index.html                       # Página principal (Inicio)
 ├── servicios.html                   # Servicios de la empresa
 ├── casos-exito.html                 # Portfolio / Casos de éxito
@@ -199,6 +193,23 @@ freelancer/
 ├── LICENSE                          # Licencia MIT
 └── README.md                        # Este archivo
 ```
+
+### Imágenes (Cloudinary CDN)
+
+Las imágenes se sirven desde **Cloudinary** (no están en el repositorio). Cloudinary automaticamente:
+- Convierte a WebP para navegadores compatibles
+- Comprime y optimiza cada imagen
+- Sirve desde CDN global (carga rápida)
+
+| Imagen | URL Cloudinary |
+|--------|---------------|
+| Favicon | `https://res.cloudinary.com/dfn5g9ve3/image/upload/v1783820548/favicon1_qd0gtj.png` |
+| Logo oficial | `https://res.cloudinary.com/dfn5g9ve3/image/upload/v1783820554/Logo_FLUJO_BASE_profesional_2_u3epyk.png` |
+| Hero inicio | `https://res.cloudinary.com/dfn5g9ve3/image/upload/v1783820548/inicio_gjla3y.png` |
+| Foto fundador | `https://res.cloudinary.com/dfn5g9ve3/image/upload/v1783820548/foto-perfil_zbgzvp.jpg` |
+| BG global | `https://res.cloudinary.com/dfn5g9ve3/image/upload/v1783820549/bg-hero_ithl25.png` |
+
+Para agregar imágenes de portfolio, guárdalas en `assets/img/portafolio/` (estas sí van en el repo).
 
 ---
 
@@ -373,7 +384,11 @@ Edita las variables CSS al inicio de `styles.css`:
 
 ### Cambiar imagen de fondo
 
-Reemplaza `assets/img/bg-hero.png` por tu imagen (1920x1080px mínimo).
+Las imágenes están en Cloudinary. Para cambiar la de fondo:
+
+1. Sube tu imagen a [cloudinary.com](https://cloudinary.com) → copia la URL
+2. En `styles.css`, busca `background-image` y reemplaza la URL de Cloudinary
+3. Formato: `https://res.cloudinary.com/dfn5g9ve3/image/upload/v.../tu-imagen.png`
 
 Ajusta la opacidad del overlay en `styles.css`:
 
@@ -385,7 +400,8 @@ body::before {
 
 ### Cambiar imagen hero de inicio
 
-Reemplaza `assets/img/inicio.png` por tu imagen.
+1. Sube tu imagen a Cloudinary → copia la URL
+2. En `index.html`, busca `inicio_gjla3y` y reemplaza la URL completa
 
 ### Agregar artículos al blog (sin Notion)
 
