@@ -452,24 +452,72 @@ document.addEventListener('DOMContentLoaded', () => {
         en el HTML (debe estar ANTES de script.js).
         ===========================================================
         */
-        const rawHTML = `
-            <div class="blog-image">
-                <img src="${post.cover || 'https://via.placeholder.com/800x450.png?text=Articulo'}" 
-                     alt="${post.title}" loading="lazy">
-                <span class="category-pill ${cat.cssClass}">${cat.label}</span>
-            </div>
-            <div class="blog-content">
-                <time datetime="${post.date}">${post.dateFormatted || post.date}</time>
-                <h3>${post.title}</h3>
-                <p>${post.excerpt || ''}</p>
-                <span class="btn btn-sm">
-                    <i class="fas fa-book-open"></i> Leer Articulo
-                </span>
-            </div>
-        `;
-        article.innerHTML = typeof DOMPurify !== 'undefined'
-            ? DOMPurify.sanitize(rawHTML, { USE_PROFILES: { html: true } })
-            : rawHTML;
+        /*
+        ===========================================================
+        ✋ SEGURIDAD: CONSTRUCCIÓN SEGURA DEL BLOG CARD
+        ===========================================================
+
+        Si DOMPurify no está disponible (CDN caído), en vez de
+        insertar HTML crudo (que podría contener XSS), construimos
+        el card usando métodos seguros del DOM:
+        - createElement para elementos
+        - textContent para texto (nunca innerHTML)
+        - setAttribute para atributos (src, alt, href)
+
+        Esto garantiza que NUNCA se inserte HTML sin sanitizar,
+        incluso si el CDN de DOMPurify falla.
+        ===========================================================
+        */
+        if (typeof DOMPurify !== 'undefined') {
+            const rawHTML = `
+                <div class="blog-image">
+                    <img src="${post.cover || 'https://via.placeholder.com/800x450.png?text=Articulo'}" 
+                         alt="${post.title}" loading="lazy">
+                    <span class="category-pill ${cat.cssClass}">${cat.label}</span>
+                </div>
+                <div class="blog-content">
+                    <time datetime="${post.date}">${post.dateFormatted || post.date}</time>
+                    <h3>${post.title}</h3>
+                    <p>${post.excerpt || ''}</p>
+                    <span class="btn btn-sm">
+                        <i class="fas fa-book-open"></i> Leer Articulo
+                    </span>
+                </div>
+            `;
+            article.innerHTML = DOMPurify.sanitize(rawHTML, { USE_PROFILES: { html: true } });
+        } else {
+            // Fallback seguro: construir el card sin innerHTML
+            const imgDiv = document.createElement('div');
+            imgDiv.className = 'blog-image';
+            const img = document.createElement('img');
+            img.src = post.cover || 'https://via.placeholder.com/800x450.png?text=Articulo';
+            img.alt = post.title;
+            img.loading = 'lazy';
+            imgDiv.appendChild(img);
+            const pill = document.createElement('span');
+            pill.className = `category-pill ${cat.cssClass}`;
+            pill.textContent = cat.label;
+            imgDiv.appendChild(pill);
+            article.appendChild(imgDiv);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'blog-content';
+            const time = document.createElement('time');
+            time.setAttribute('datetime', post.date);
+            time.textContent = post.dateFormatted || post.date;
+            contentDiv.appendChild(time);
+            const h3 = document.createElement('h3');
+            h3.textContent = post.title;
+            contentDiv.appendChild(h3);
+            const p = document.createElement('p');
+            p.textContent = post.excerpt || '';
+            contentDiv.appendChild(p);
+            const btn = document.createElement('span');
+            btn.className = 'btn btn-sm';
+            btn.innerHTML = '<i class="fas fa-book-open"></i> Leer Articulo';
+            contentDiv.appendChild(btn);
+            article.appendChild(contentDiv);
+        }
 
         // Click en la card abre el modal
         article.addEventListener('click', () => openModal(post));

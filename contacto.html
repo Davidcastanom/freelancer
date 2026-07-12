@@ -7,14 +7,14 @@
     <meta name="author" content="Flujo Base">
     <meta property="og:title" content="Contacto | Flujo Base">
     <meta property="og:description" content="Contáctanos en Flujo Base. Cuéntanos sobre tu proyecto y te ayudaremos a transformar tus procesos con IA y automatización.">
-    <meta property="og:image" content="assets/img/Logo FLUJO BASE profesional_2.png">
+    <meta property="og:image" content="https://davidcastanom.github.io/freelancer/assets/img/Logo%20FLUJO%20BASE%20profesional_2.png">
     <meta property="og:url" content="https://davidcastanom.github.io/freelancer/contacto.html">
     <meta property="og:type" content="website">
     <!-- Security Headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' https://via.placeholder.com https://drive.google.com data:; frame-src https://www.youtube.com https://drive.google.com; connect-src https://hook.us2.make.com https://formsubmit.co;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' https://via.placeholder.com https://drive.google.com data:; frame-src https://www.youtube.com https://drive.google.com; frame-ancestors 'none'; form-action 'self' https://formsubmit.co https://hook.us2.make.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests; connect-src https://hook.us2.make.com https://formsubmit.co;">
     <title>Contacto | Flujo Base</title>
     <link rel="icon" href="assets/img/favicon1.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,7 +112,21 @@
                          ========================================== -->
                     <div class="contact-form-wrap">
                         <h3>Envíanos un Mensaje</h3>
-                        <form id="contact-form" action="https://formsubmit.co/flujobase.digital@gmail.com" method="POST" data-rate-limit="3" data-rate-window="60">
+                        <!--
+                        ✋ FORMULARIO — CONFIGURACIÓN DE EMAIL
+                        ==========================================
+                        El email está configurado en el dashboard de FormSubmit.co:
+                        1. Ve a formsubmit.co → inicia sesión con flujobase.digital@gmail.com
+                        2. En tu primer envío, FormSubmit te envía un email de confirmación
+                        3. Haz clic en el enlace para activar tu cuenta
+                        4. En Settings, configura el email de destino
+
+                        Si quitas el _cc de abajo, FormSubmit usa el email del dashboard.
+                        Si lo dejas, se agrega como copia (útil si cambias el email después).
+                        ==========================================
+                        -->
+                        <form id="contact-form" action="https://formsubmit.co/" method="POST" data-rate-limit="3" data-rate-window="60">
+                            <input type="hidden" name="_cc" value="flujobase.digital@gmail.com">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="name">Nombre Completo</label>
