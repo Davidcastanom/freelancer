@@ -81,6 +81,32 @@ html {
     scroll-behavior: smooth;
 }
 
+/* --------------------------------------------------------------------------
+   ACCESIBILIDAD — Skip-to-content link
+   Visible solo cuando recibe focus (Tab). Permite saltar la navegación.
+   -------------------------------------------------------------------------- */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-primario);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 0 0 var(--border-radius-card) var(--border-radius-card);
+    font-weight: 600;
+    font-size: 0.95rem;
+    z-index: 10000;
+    transition: top 0.2s ease;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid var(--color-acento);
+    outline-offset: 2px;
+}
+
 body {
     font-family: var(--fuente-principal);
     background-color: var(--color-fondo);
