@@ -180,11 +180,11 @@ El sitio implementa múltiples capas de protección:
 freelancer/
 ├── assets/
 │   └── img/
-│       ├── bg-hero.png              # Imagen de fondo global
-│       ├── favicon1.png             # Favicon del sitio
-│       ├── foto-perfil.jpg          # Foto del fundador
-│       ├── inicio.png               # Imagen hero de inicio
-│       └── Logo FLUJO BASE ...png   # Logo oficial
+│       ├── bg-hero.png              # Imagen de fondo global (Cloudinary)
+│       ├── favicon1.png             # Favicon del sitio (Cloudinary)
+│       ├── foto-perfil.jpg          # Foto del fundador (Cloudinary)
+│       ├── inicio.png               # Imagen hero de inicio (Cloudinary)
+│       └── Logo FLUJO BASE ...png   # Logo oficial (Cloudinary)
 ├── index.html                       # Página principal (Inicio)
 ├── servicios.html                   # Servicios de la empresa
 ├── casos-exito.html                 # Portfolio / Casos de éxito

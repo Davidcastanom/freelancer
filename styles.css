@@ -92,7 +92,7 @@ body {
        assets/img/bg-hero.webp (o .jpg)
        La imagen debe ser 1920x1080px mínimo para cubrir todas las pantallas.
     */
-    background-image: url('assets/img/bg-hero.png');
+    background-image: url('https://res.cloudinary.com/dfn5g9ve3/image/upload/v1783820549/bg-hero_ithl25.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
