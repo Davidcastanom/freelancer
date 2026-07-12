@@ -134,6 +134,29 @@ El sitio implementa múltiples capas de protección:
 
 ---
 
+## SEO Técnico
+
+| Archivo | Qué hace |
+|---------|----------|
+| `sitemap.xml` | Lista todas las páginas para motores de búsqueda |
+| `robots.txt` | Instrucciones para crawlers (Google, Bing, etc.) |
+| `404.html` | Página de error personalizada (noindex) |
+| JSON-LD | Datos estructurados en cada página (Organization, Service, Blog, etc.) |
+| `og:image` | URL absoluta para preview en redes sociales |
+
+### JSON-LD por página
+
+| Página | Schema |
+|--------|--------|
+| Inicio | `Organization` + `WebSite` (con SearchAction) |
+| Servicios | `ProfessionalService` + `OfferCatalog` |
+| Casos de Éxito | `CollectionPage` |
+| Nosotros | `AboutPage` + `Organization` + `Person` (fundador) |
+| Blog | `Blog` + `Organization` (publisher) |
+| Contacto | `ContactPage` + `Organization` |
+
+---
+
 ## Stack Tecnológico
 
 | Tecnología | Uso |
@@ -168,6 +191,9 @@ freelancer/
 ├── nosotros.html                    # Sobre nosotros
 ├── blog.html                        # Centro Educativo (Notion)
 ├── contacto.html                    # Formulario de contacto
+├── 404.html                         # Página de error personalizada
+├── sitemap.xml                      # Sitemap para motores de búsqueda
+├── robots.txt                       # Instrucciones para crawlers
 ├── styles.css                       # Estilos globales (~1900 líneas)
 ├── script.js                        # JavaScript principal (~940 líneas)
 ├── LICENSE                          # Licencia MIT

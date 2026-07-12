@@ -1,0 +1,10 @@
+# robots.txt — Flujo Base
+# https://davidcastanom.github.io/freelancer/
+
+User-agent: *
+Allow: /
+
+Sitemap: https://davidcastanom.github.io/freelancer/sitemap.xml
+
+# Bloquear páginas de error y archivos internos
+Disallow: /404.html
