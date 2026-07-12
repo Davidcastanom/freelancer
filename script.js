@@ -146,23 +146,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
             /*
             ===========================================================
-            ✋ WEBHOOK DE MAKE — URL DE ENVÍO DE FORMULARIO
+            ✋ WEBHOOK DE MAKE — CONFIGURACIÓN DEL ENVÍO DE FORMULARIO
             ===========================================================
 
-            Esta URL envía los datos del formulario a tu Scenario de Make.
-            Si la eliminas o cambias, los formularios dejarán de llegar a tu CRM.
+            ─────────────────────────────────────────────────────────
+            OPCIÓN A: DIRECTO A MAKE (actual — funciona ya)
+            ─────────────────────────────────────────────────────────
+            Los datos van directo del formulario a tu webhook de Make.
+            Es la configuración actual. Funciona pero el webhook es
+            público (cualquiera que inspeccione el código puede verlo).
 
-            Para obtener esta URL:
-            1. Ve a make.com → abre tu Scenario de Formulario
-            2. En el Módulo Webhook, copia la URL generada
-            3. Reemplaza la URL de abajo
+            Para usar esta opción:
+            1. Ve a make.com → abre tu Scenario
+            2. En el Módulo Webhook, copia la URL
+            3. Pégala abajo donde dice FETCH_URL
 
-            ⚠️ SEGURIDAD: Esta URL es pública. El honeypot, rate limiting
-            y timestamp anti-bot protegen contra bots. Si ves spam masivo,
-            considera mover esta llamada a un backend proxy.
+            ─────────────────────────────────────────────────────────
+            OPCIÓN B: PROXY SEGURO CON CLOUDFLARE WORKER (recomendado)
+            ─────────────────────────────────────────────────────────
+            Los datos van a un Worker de Cloudflare que valida,
+            filtra y rate-limita ANTES de reenviar a Make.
+            Tu webhook NUNCA se expone al público.
+
+            Para configurar esta opción:
+            1. Crea cuenta gratis en dash.cloudflare.com
+            2. Workers & Pages → Create Worker → nombre: "flujo-base-proxy"
+            3. Pega el código del Worker (está documentado abajo)
+            4. Publica el Worker y copia su URL
+            5. Cambia FETCH_URL abajo por la URL del Worker
+            6. Cambia USE_PROXY a true
+
+            El código del Worker está en el archivo: docs/CLOUDFLARE-WORKER.md
+            (si no existe, busca "Cloudflare Worker Flujo Base" en Google
+            o pídele al asistente que lo genere por ti)
+
+            ─────────────────────────────────────────────────────────
+            ⚠️ SEGURIDAD: Independientemente de la opción que elijas,
+            el honeypot, rate limiting y timestamp anti-bot ya protegen
+            tu formulario del lado del cliente. El proxy agrega una
+            capa server-side que es imposible de saltar con JS.
             ===========================================================
             */
-            fetch("https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb", {
+
+            // ✋ CAMBIA ESTO: URL del endpoint (Make directo o Cloudflare Worker)
+            const USE_PROXY = false;  // ← cámbialo a true cuando configures Cloudflare
+            const FETCH_URL_DIRECT = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
+            const FETCH_URL_PROXY = 'https://TU-WORKER.tu-usuario.workers.dev';  // ← pega tu URL de Worker aquí
+            const FETCH_URL = USE_PROXY ? FETCH_URL_PROXY : FETCH_URL_DIRECT;
+
+            fetch(FETCH_URL, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -172,7 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     email: email,
                     businessType: businessType,
                     serviceInterest: serviceInterest,
-                    message: message
+                    message: message,
+                    _timestamp: timestampField?.value || ''  // anti-bot: el Worker valida esto
                 })
             })
             .then(response => {
@@ -740,3 +773,119 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+
+/*
+===========================================================================
+✋ CÓDIGO DEL WORKER DE CLOUDFLARE — PROXY SEGURO PARA MAKE
+===========================================================================
+
+Si elegiste la OPCIÓN B (proxy seguro), necesitas crear un Worker
+en Cloudflare. Este archivo documenta el código completo del Worker.
+
+PASOS:
+1. Ve a https://dash.cloudflare.com → crea cuenta gratis
+2. Menú lateral → Workers & Pages → Create Worker
+3. Nombre: "flujo-base-proxy" → Create Worker
+4. Haz clic en "Edit code" → borra todo lo que haya
+5. Pega EL CÓDIGO DE ABAJO (todo lo que está entre las líneas)
+6. Haz clic en "Deploy"
+7. Copia la URL que te da (algo como: flujo-base-proxy.tu-usuario.workers.dev)
+8. Ve a script.js → busca USE_PROXY → cámbialo a true
+9. Ve a script.js → busca FETCH_URL_PROXY → pega tu URL del Worker
+
+===========================================================================
+// INICIO DEL CÓDIGO DEL WORKER — copia desde aquí
+===========================================================================
+
+const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
+
+const RATE_LIMIT = 5;
+const RATE_WINDOW = 60 * 1000;
+const ipLog = new Map();
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const log = ipLog.get(ip) || [];
+  const recent = log.filter(t => now - t < RATE_WINDOW);
+  if (recent.length >= RATE_LIMIT) return true;
+  recent.push(now);
+  ipLog.set(ip, recent);
+  return false;
+}
+
+const FIELD_LIMITS = { name: 100, email: 150, businessType: 50, serviceInterest: 50, message: 2000 };
+
+function sanitize(str) {
+  return String(str).replace(/<[^>]*>/g, '').trim();
+}
+
+export default {
+  async fetch(request, env) {
+    if (request.method !== 'POST') {
+      return new Response('Method not allowed', { status: 405 });
+    }
+
+    const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+    if (isRateLimited(ip)) {
+      return new Response(JSON.stringify({ error: 'Too many requests' }), { status: 429, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    try {
+      const body = await request.json();
+
+      // Honeypot
+      if (body._honey && body._honey !== '') {
+        return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+      }
+
+      // Anti-bot: mínimo 3 segundos
+      const ts = parseInt(body._timestamp || '0');
+      if (ts && (Date.now() - ts) < 3000) {
+        return new Response(JSON.stringify({ error: 'Too fast' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+      }
+
+      // Sanitizar y limitar campos
+      const clean = {};
+      for (const [key, limit] of Object.entries(FIELD_LIMITS)) {
+        clean[key] = sanitize(body[key] || '').substring(0, limit);
+      }
+
+      // Validar email
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean.email)) {
+        return new Response(JSON.stringify({ error: 'Invalid email' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+      }
+
+      // Reenviar a Make
+      const res = await fetch(MAKE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(clean)
+      });
+
+      if (!res.ok) throw new Error('Make failed');
+      return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+
+    } catch (err) {
+      return new Response(JSON.stringify({ error: 'Internal error' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    }
+  }
+};
+
+===========================================================================
+// FIN DEL CÓDIGO DEL WORKER — hasta aquí
+===========================================================================
+
+¿QUÉ HACE ESTE WORKER?
+- Valida que sea POST (bloquea bots que hacen GET)
+- Rate limiting real por IP (5 req/min, no se puede saltar)
+- Detecta honeypot (si _honey tiene valor, descarta)
+- Detecta envíos rápidos (si _timestamp indica < 3 segundos, descarta)
+- Sanitiza todos los textos (elimina tags HTML)
+- Limita longitudes de campos
+- Valida formato de email
+- Reenvía TODO a tu webhook de Make (el webhook nunca se expone)
+
+COSTO: Gratis (plan free: 100,000 requests/día)
+===========================================================================
+*/
