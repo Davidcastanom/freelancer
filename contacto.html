@@ -10,12 +10,17 @@
     <meta property="og:image" content="assets/img/Logo FLUJO BASE profesional_2.png">
     <meta property="og:url" content="https://davidcastanom.github.io/freelancer/contacto.html">
     <meta property="og:type" content="website">
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' https://via.placeholder.com https://drive.google.com data:; frame-src https://www.youtube.com https://drive.google.com; connect-src https://hook.us2.make.com https://formsubmit.co;">
     <title>Contacto | Flujo Base</title>
     <link rel="icon" href="assets/img/favicon1.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -53,7 +58,9 @@
                          COLUMNA IZQUIERDA: INFORMACIÓN DE CONTACTO
                          ==========================================
                          ✋ CAMBIOS MANUALES QUE DEBES HACER:
-                         1. Email: cambia "flujobase.digital@gmail.com" por tu email real
+                         1. Email: cambia los data-attributes data-email-user y data-email-domain
+                            Por ejemplo, para "tu@email.com" pon data-email-user="tu" data-email-domain="email.com"
+                            El email se ofusca automáticamente con JavaScript para evitar spam.
                          2. WhatsApp: cambia "573001234567" por tu número real
                             (formato: código país + número sin espacios ni guiones)
                          ========================================== -->
@@ -66,7 +73,8 @@
                             </div>
                             <div class="contact-details">
                                 <span class="contact-label">Correo Electrónico</span>
-                                <a href="mailto:flujobase.digital@gmail.com">flujobase.digital@gmail.com</a>
+                                <!-- ✋ SEGURIDAD: Email ofuscado con data-attributes -->
+                                <a href="#" data-email-user="flujobase.digital" data-email-domain="gmail.com"></a>
                             </div>
                         </div>
 
@@ -104,15 +112,15 @@
                          ========================================== -->
                     <div class="contact-form-wrap">
                         <h3>Envíanos un Mensaje</h3>
-                        <form id="contact-form" action="https://formsubmit.co/flujobase.digital@gmail.com" method="POST">
+                        <form id="contact-form" action="https://formsubmit.co/flujobase.digital@gmail.com" method="POST" data-rate-limit="3" data-rate-window="60">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="name">Nombre Completo</label>
-                                    <input type="text" id="name" name="name" required>
+                                    <input type="text" id="name" name="name" required maxlength="100" pattern=".{2,100}">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Correo Electrónico</label>
-                                    <input type="email" id="email" name="email" required>
+                                    <input type="email" id="email" name="email" required maxlength="150">
                                 </div>
                             </div>
 
@@ -144,12 +152,19 @@
 
                             <div class="form-group">
                                 <label for="message">Cuéntanos sobre tu proyecto</label>
-                                <textarea id="message" name="message" rows="5" required></textarea>
+                                <textarea id="message" name="message" rows="5" required maxlength="2000"></textarea>
                             </div>
 
                             <input type="hidden" name="_next" value="https://davidcastanom.github.io/freelancer/contacto.html#exito">
-                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_captcha" value="true">
+                            <!-- Honeypot: si un bot llena este campo, se bloquea el envío -->
+                            <div style="position:absolute;left:-9999px;" aria-hidden="true">
+                                <input type="text" name="_honey" tabindex="-1" autocomplete="off">
+                            </div>
+                            <!-- Timestamp: anti-bot basado en tiempo (mínimo 3 segundos) -->
+                            <input type="hidden" name="_timestamp" id="form-timestamp" value="">
 
+                            <!-- ✋ SEGURIDAD: Los maxlength en los inputs limitan la cantidad de datos enviados -->
                             <button type="submit" id="submit-btn" class="btn">Transformemos tu Proceso</button>
                         </form>
 
@@ -215,6 +230,8 @@
         </div>
     </footer>
 
+    <!-- DOMPurify: sanitiza HTML inyectado para prevenir XSS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js" integrity="sha384-cwS6YdhLI7XS60eoDiC+egV0qHp8zI+Cms46R0nbn8JrmoAzV9uFL60etMZhAnSu" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="script.js" defer></script>
 </body>
 </html>

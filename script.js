@@ -57,20 +57,79 @@ document.addEventListener('DOMContentLoaded', () => {
     // Intercepta el envío del formulario, valida los campos y envía
     // los datos a un webhook de Make (Integromat) vía fetch.
     // Incluye estados de carga (spinner) y mensajes de feedback.
+    //
+    // SEGURIDAD: Incluye honeypot anti-bot, rate limiting, timestamp
+    // anti-bot basado en tiempo, y sanitización de inputs.
     // ======================================================================
     const contactForm = document.getElementById('contact-form');
     const formMessage = document.getElementById('form-message');
     const submitBtn = document.getElementById('submit-btn');
 
+    // --- SEGURIDAD: Timestamp del formulario (anti-bot basado en tiempo) ---
+    // Registra cuándo se cargó la página. Si el formulario se envía en
+    // menos de 3 segundos, probablemente es un bot automatizado.
+    const formLoadTime = Date.now();
+    const timestampField = document.getElementById('form-timestamp');
+    if (timestampField) {
+        timestampField.value = formLoadTime.toString();
+    }
+
+    // --- SEGURIDAD: Rate limiting (máximo 3 envíos por 60 segundos) ---
+    const RATE_LIMIT_MAX = 3;
+    const RATE_LIMIT_WINDOW = 60000; // 60 segundos en ms
+    let formSubmissionLog = JSON.parse(localStorage.getItem('fb_form_log') || '[]');
+
+    function isRateLimited() {
+        const now = Date.now();
+        // Limpiar entradas viejas
+        formSubmissionLog = formSubmissionLog.filter(t => now - t < RATE_LIMIT_WINDOW);
+        localStorage.setItem('fb_form_log', JSON.stringify(formSubmissionLog));
+        return formSubmissionLog.length >= RATE_LIMIT_MAX;
+    }
+
+    function recordSubmission() {
+        formSubmissionLog.push(Date.now());
+        localStorage.setItem('fb_form_log', JSON.stringify(formSubmissionLog));
+    }
+
+    // --- SEGURIDAD: Sanitización de texto (elimina tags HTML) ---
+    function sanitizeText(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
     if (contactForm) {
         contactForm.addEventListener('submit', function(event) {
             event.preventDefault();
-            
-            const name = document.getElementById('name')?.value.trim() || '';
+
+            // --- SEGURIDAD: Check honeypot ---
+            const honey = contactForm.querySelector('input[name="_honey"]');
+            if (honey && honey.value !== '') {
+                // Bot detectado: simular éxito pero no enviar nada
+                showMessage('¡Mensaje enviado con éxito! Te contactaremos pronto.', 'success');
+                contactForm.reset();
+                return;
+            }
+
+            // --- SEGURIDAD: Check anti-bot por tiempo (mínimo 3 segundos) ---
+            const elapsed = Date.now() - formLoadTime;
+            if (elapsed < 3000) {
+                showMessage('Por favor, revisa tu mensaje antes de enviarlo.', 'error');
+                return;
+            }
+
+            // --- SEGURIDAD: Rate limiting ---
+            if (isRateLimited()) {
+                showMessage('Has enviado demasiados mensajes. Intenta de nuevo en un minuto.', 'error');
+                return;
+            }
+
+            const name = sanitizeText(document.getElementById('name')?.value.trim() || '');
             const email = document.getElementById('email')?.value.trim() || '';
-            const businessType = document.getElementById('business-type')?.value || '';
-            const serviceInterest = document.getElementById('service-interest')?.value || '';
-            const message = document.getElementById('message')?.value.trim() || '';
+            const businessType = sanitizeText(document.getElementById('business-type')?.value || '');
+            const serviceInterest = sanitizeText(document.getElementById('service-interest')?.value || '');
+            const message = sanitizeText(document.getElementById('message')?.value.trim() || '');
 
             if (name === '' || email === '' || message === '') {
                 showMessage('Por favor, completa todos los campos obligatorios.', 'error');
@@ -85,6 +144,24 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             submitBtn.classList.add('loading');
 
+            /*
+            ===========================================================
+            ✋ WEBHOOK DE MAKE — URL DE ENVÍO DE FORMULARIO
+            ===========================================================
+
+            Esta URL envía los datos del formulario a tu Scenario de Make.
+            Si la eliminas o cambias, los formularios dejarán de llegar a tu CRM.
+
+            Para obtener esta URL:
+            1. Ve a make.com → abre tu Scenario de Formulario
+            2. En el Módulo Webhook, copia la URL generada
+            3. Reemplaza la URL de abajo
+
+            ⚠️ SEGURIDAD: Esta URL es pública. El honeypot, rate limiting
+            y timestamp anti-bot protegen contra bots. Si ves spam masivo,
+            considera mover esta llamada a un backend proxy.
+            ===========================================================
+            */
             fetch("https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb", {
                 method: "POST",
                 headers: {
@@ -100,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(response => {
                 if (!response.ok) throw new Error("Error en el envío");
+                recordSubmission();
                 showMessage('¡Mensaje enviado con éxito! Te contactaremos pronto.', 'success');
                 contactForm.reset();
             })
@@ -357,9 +435,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cat = CATEGORY_MAP[post.category] || { label: post.category, cssClass: 'cat-ia' };
 
-        article.innerHTML = `
+        /*
+        ===========================================================
+        ✋ SEGURIDAD: SANITIZACIÓN DE HTML CON DOMPurify
+        ===========================================================
+
+        El blog puede recibir contenido desde Notion (vía Make webhook).
+        Si la database de Notion es comprometida, un atacante podría
+        inyectar código malicioso (XSS) en los campos title, excerpt, etc.
+
+        DOMPurify limpia todo el HTML inyectado, eliminando scripts y
+        eventos peligrosos antes de insertarlo en el DOM.
+
+        Si ves errores de "DOMPurify is not defined", significa que la
+        librería no se cargó. Verifica el tag <script> de DOMPurify
+        en el HTML (debe estar ANTES de script.js).
+        ===========================================================
+        */
+        const rawHTML = `
             <div class="blog-image">
-                <img src="${post.cover || 'https://via.placeholder.com/800x450.png?text=Artículo'}" 
+                <img src="${post.cover || 'https://via.placeholder.com/800x450.png?text=Articulo'}" 
                      alt="${post.title}" loading="lazy">
                 <span class="category-pill ${cat.cssClass}">${cat.label}</span>
             </div>
@@ -368,10 +463,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h3>${post.title}</h3>
                 <p>${post.excerpt || ''}</p>
                 <span class="btn btn-sm">
-                    <i class="fas fa-book-open"></i> Leer Artículo
+                    <i class="fas fa-book-open"></i> Leer Articulo
                 </span>
             </div>
         `;
+        article.innerHTML = typeof DOMPurify !== 'undefined'
+            ? DOMPurify.sanitize(rawHTML, { USE_PROFILES: { html: true } })
+            : rawHTML;
 
         // Click en la card abre el modal
         article.addEventListener('click', () => openModal(post));
@@ -575,6 +673,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+    });
+
+
+    // ======================================================================
+    // 10. OFUSCACIÓN DE EMAIL
+    // El email está codificado en data-attributes en el HTML para evitar
+    // que los scrapers automatizados lo recojan para spam.
+    // Este script lo decodifica y lo muestra solo para usuarios reales.
+    // ======================================================================
+    document.querySelectorAll('[data-email-user]').forEach(el => {
+        const user = el.getAttribute('data-email-user');
+        const domain = el.getAttribute('data-email-domain');
+        if (user && domain) {
+            el.textContent = user + '@' + domain;
+            el.href = 'mailto:' + user + '@' + domain;
+        }
     });
 
 });
