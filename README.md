@@ -1,0 +1,336 @@
+<div align="center">
+
+# Flujo Base
+
+### Transformamos procesos. Impulsamos resultados.
+
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
+![Make](https://img.shields.io/badge/Make-6D00CC?style=for-the-badge&logo=make&logoColor=white)
+
+**Sitio web corporativo de Flujo Base** — Empresa de transformación digital especializada en Inteligencia Artificial, automatización y desarrollo de soluciones digitales.
+
+[Ver Sitio en Vivo](https://davidcastanom.github.io/freelancer/) · [Reportar Bug](https://github.com/Davidcastanom/freelancer/issues) · [Contacto](https://davidcastanom.github.io/freelancer/contacto.html)
+
+</div>
+
+---
+
+## Tabla de Contenidos
+
+- [Vista Previa](#vista-previa)
+- [Características](#características)
+- [Stack Tecnológico](#stack-tecnológico)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Inicio Rápido](#inicio-rápido)
+- [Integración con Notion (Blog)](#integración-con-notion-blog)
+- [Configuración del Formulario de Contacto](#configuración-del-formulario-de-contacto)
+- [Guía de Personalización](#guía-de-personalización)
+- [Manual de Marca](#manual-de-marca)
+- [Despliegue](#despliegue)
+- [Autor](#autor)
+- [Licencia](#licencia)
+
+---
+
+## Vista Previa
+
+El sitio incluye **6 páginas** completamente diseñadas con la paleta oficial de Flujo Base:
+
+| Página | Descripción |
+|--------|-------------|
+| **Inicio** | Hero con eslogan, 5 pilares de contenido, valores, misión/visión |
+| **Servicios** | 5 pilares de servicio con descripción detallada y tags |
+| **Casos de Éxito** | Grid con 3 tipos: imagen, video (YouTube/Drive), enlace externo |
+| **Nosotros** | Historia, misión, visión, 5 valores, perfil del fundador |
+| **Blog** | Centro Educativo con búsqueda, filtros y modal de vista previa |
+| **Contacto** | Formulario estratégico con selects + información de contacto |
+
+---
+
+## Características
+
+### Diseño
+- Paleta oficial: Azul eléctrico `#0066FF`, Negro `#0A0A0F`, Cian `#00D4FF`
+- Tipografía: Poppins (body) + Space Grotesk (headings)
+- Imagen de fondo global con efecto parallax y overlay oscuro
+- Componentes responsivos (móvil, tablet, desktop)
+- Animaciones fade-in con IntersectionObserver
+
+### Funcionalidad
+- Menú hamburguesa responsive para móvil
+- Header fijo con efecto de sombra al hacer scroll
+- Blog con búsqueda por keyword y filtro por fecha/categoría
+- Modal popup para vista previa de artículos del blog
+- Filtros de portfolio por tipo (imagen/video/enlace)
+- Touch táctil para móvil en portfolio items
+- Copyright dinámico (año actual automático)
+- Skeleton loader mientras carga el blog
+
+### Integraciones
+- **Notion** — Blog conectado vía Make (Integromat) webhook
+- **FormSubmit.co** — Formulario de contacto funcional
+- **Make (Integromat)** — Webhook para enviar datos del formulario
+- **YouTube** — Videos embebidos en casos de éxito
+- **Google Drive** — Videos embebidos con formato `/preview`
+
+---
+
+## Stack Tecnológico
+
+| Tecnología | Uso |
+|-----------|-----|
+| HTML5 | Estructura semántica |
+| CSS3 | Estilos con variables, grid, flexbox, animaciones |
+| JavaScript vanilla | Interactividad, fetch API, IntersectionObserver |
+| Notion API | Base de datos del blog (vía Make) |
+| Make (Integromat) | Webhooks para blog y formulario |
+| FormSubmit.co | Envío de formularios por email |
+| Google Fonts | Poppins + Space Grotesk |
+| Font Awesome 6.4 | Iconos |
+
+---
+
+## Estructura del Proyecto
+
+```
+freelancer/
+├── assets/
+│   └── img/
+│       ├── bg-hero.png              # Imagen de fondo global
+│       ├── favicon1.png             # Favicon del sitio
+│       ├── foto-perfil.jpg          # Foto del fundador
+│       └── Logo FLUJO BASE ...png   # Logo oficial
+├── index.html                       # Página principal (Inicio)
+├── servicios.html                   # Servicios de la empresa
+├── casos-exito.html                 # Portfolio / Casos de éxito
+├── nosotros.html                    # Sobre nosotros
+├── blog.html                        # Centro Educativo (Notion)
+├── contacto.html                    # Formulario de contacto
+├── styles.css                       # Estilos globales (1900+ líneas)
+├── script.js                        # JavaScript principal (560+ líneas)
+├── LICENSE                          # Licencia MIT
+└── README.md                        # Este archivo
+```
+
+---
+
+## Inicio Rápido
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/Davidcastanom/freelancer.git
+cd freelancer
+```
+
+### 2. Abrir en el navegador
+
+Simplemente abre `index.html` en tu navegador. No se necesita servidor local.
+
+### 3. Personalizar
+
+Edita los archivos HTML直接amente. Cada página tiene comentarios detallados con instrucciones paso a paso (marcados con ✋).
+
+---
+
+## Integración con Notion (Blog)
+
+El blog se conecta automáticamente a una base de datos de Notion a través de Make (Integromat).
+
+### Paso 1: Crear la base de datos en Notion
+
+Crea una base de datos con estas columnas **exactas**:
+
+| Propiedad | Tipo | Ejemplo |
+|-----------|------|---------|
+| Title | Title | "Cómo usar IA en tu negocio" |
+| Excerpt | Rich text | "Descubre las herramientas..." |
+| Cover | Files & media | (imagen de portada 16:9) |
+| Date | Date | 10 de julio de 2026 |
+| Category | Select | IA \| Automatización \| Desarrollo \| Datos \| Consultoría |
+| Tags | Multi-select | productividad, herramientas |
+| ContentURL | URL | https://notion.so/xxx |
+
+### Paso 2: Configurar Make
+
+1. Crea un nuevo Scenario en [make.com](https://make.com)
+2. **Módulo 1**: Webhooks > Custom webhook → copia la URL
+3. **Módulo 2**: Notion > List database pages → conecta tu cuenta
+4. **Módulo 3**: Webhooks > Response → devuelve el JSON formateado
+5. Activa el Scenario
+
+### Paso 3: Conectar en el código
+
+Abre `script.js` y pega la URL del webhook:
+
+```javascript
+const BLOG_WEBHOOK_URL = 'https://hook.us2.make.com/tu-url-aqui';
+```
+
+### Paso 4: Compartir páginas de Notion
+
+Para que el modal muestre el contenido, cada página de Notion debe tener "Share to web" activado.
+
+> **Mientras tanto**: El blog muestra 3 artículos de ejemplo. Edítalos en `script.js` buscando `FALLBACK_POSTS`.
+
+---
+
+## Configuración del Formulario de Contacto
+
+El formulario usa **FormSubmit.co** para enviar emails y **Make** para enviar datos a tu CRM.
+
+### Cambios manuales necesarios
+
+En `contacto.html`:
+
+1. **Email**: Cambia `flujobase.digital@gmail.com` por tu email real
+2. **WhatsApp**: Cambia `573001234567` por tu número (código país + número)
+
+En `script.js` (ya configurado):
+- Webhook de Make: `https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb`
+
+---
+
+## Guía de Personalización
+
+### Cambiar colores
+
+Edita las variables CSS al inicio de `styles.css`:
+
+```css
+:root {
+    --color-primario: #0066FF;      /* Azul eléctrico */
+    --color-secundario: #0052CC;    /* Azul oscuro */
+    --color-fondo: #0A0A0F;         /* Negro */
+    --color-superficie: #12121A;    /* Gris oscuro */
+    --color-texto-principal: #F0F0F5; /* Blanco */
+    --color-texto-secundario: #9090A0; /* Gris metálico */
+    --color-acento: #00D4FF;        /* Cian */
+}
+```
+
+### Cambiar imagen de fondo
+
+Reemplaza `assets/img/bg-hero.png` por tu imagen (1920x1080px mínimo).
+
+Ajusta la opacidad del overlay en `styles.css`:
+
+```css
+body::before {
+    background-color: rgba(10, 10, 15, 0.88); /* 0.88 = 88% opaco */
+}
+```
+
+### Agregar artículos al blog (sin Notion)
+
+Edita `script.js` y modifica el array `FALLBACK_POSTS`:
+
+```javascript
+const FALLBACK_POSTS = [
+    {
+        id: 'mi-articulo-1',
+        title: 'Título del artículo',
+        excerpt: 'Resumen del artículo...',
+        cover: 'https://via.placeholder.com/800x450.png?text=Mi+Articulo',
+        date: '2026-07-10',
+        dateFormatted: '10 Julio 2026',
+        category: 'ia',  // ia | automatizacion | desarrollo | datos | consultoria
+        tags: ['etiqueta1', 'etiqueta2'],
+        contentUrl: '#'
+    }
+];
+```
+
+### Agregar casos de éxito
+
+En `casos-exito.html`, copia un bloque `<div class="portfolio-item">` y editalo:
+
+```html
+<div class="portfolio-item fade-in" data-type="imagen">
+    <div class="portfolio-img">
+        <img src="assets/img/portafolio/mi-caso.png" alt="Descripción">
+        <div class="portfolio-overlay">
+            <div class="portfolio-info">
+                <span class="category-pill cat-ia">IA</span>
+                <h3>Nombre del Proyecto</h3>
+                <p>Descripción del caso de éxito.</p>
+                <p class="portfolio-metric"><i class="fas fa-chart-line"></i> <strong>Resultado:</strong> +40% en productividad</p>
+                <a href="https://mi-proyecto.com" class="btn btn-sm portfolio-btn" target="_blank">Ver Proyecto</a>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+### Embedder videos de Google Drive
+
+1. Comparte el video desde Google Drive (acceso: cualquier persona con el link)
+2. Copia el ID del archivo de la URL: `https://drive.google.com/file/d/**ESTE_ID**/view`
+3. Usa el formato embed: `https://drive.google.com/file/d/ESTE_ID/preview`
+
+---
+
+## Manual de Marca
+
+Los estilos siguen el **Manual de Marca Flujo Base 1.0**:
+
+| Elemento | Valor |
+|----------|-------|
+| Azul eléctrico | `#0066FF` |
+| Azul oscuro | `#0052CC` |
+| Negro | `#0A0A0F` |
+| Gris oscuro | `#12121A` |
+| Blanco suave | `#F0F0F5` |
+| Gris metálico | `#9090A0` |
+| Cian acento | `#00D4FF` |
+| Fuente principal | Poppins |
+| Fuente secundaria | Space Grotesk |
+| Eslogan | "Transformamos procesos. Impulsamos resultados." |
+
+---
+
+## Despliegue
+
+### GitHub Pages (actual)
+
+El sitio se despliega automáticamente en:
+
+```
+https://davidcastanom.github.io/freelancer/
+```
+
+### Vercel / Netlify
+
+1. Conecta el repositorio GitHub
+2. Configuración de build: **Ninguna** (es HTML estático)
+3. Directorio de salida: `/` (raíz)
+
+---
+
+## Redes Sociales
+
+- [LinkedIn](https://www.linkedin.com/in/david-esteban-castaño-meneses-62a30a350/?skipRedirect=true)
+- [GitHub](https://github.com/Davidcastanom)
+- [Facebook](https://www.facebook.com/profile.php?id=61591989834382)
+- [Instagram](https://www.instagram.com/flujobase.digital)
+
+---
+
+## Autor
+
+**David Castaño** — Fundador de Flujo Base
+
+Empresa de transformación digital especializada en Inteligencia Artificial, automatización y desarrollo de soluciones digitales para emprendedores y empresas.
+
+---
+
+## Licencia
+
+Distribuido bajo la Licencia MIT. Ver `LICENSE` para más información.
+
+```
+MIT License - Copyright (c) 2025 Davidcastanom
+```
