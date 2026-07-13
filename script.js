@@ -396,6 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function transformNotionPost(item) {
+        console.log('[transformNotionPost] item:', JSON.stringify(item).substring(0, 300));
         const p = item.properties_value || item;
 
         // Title: puede ser string o array de rich text
@@ -805,17 +806,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // y te devuelve los datos.
         if (BLOG_WEBHOOK_URL) {
             const blogFetchUrl = USE_PROXY ? FETCH_URL_PROXY : BLOG_WEBHOOK_URL;
+            console.log('[Blog] USE_PROXY:', USE_PROXY, '| Fetch URL:', blogFetchUrl);
             fetch(blogFetchUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'getPosts', webhookUrl: BLOG_WEBHOOK_URL })
             })
             .then(res => {
-                if (!res.ok) throw new Error('Error al cargar artículos');
+                console.log('[Blog] Response status:', res.status, '| Content-Type:', res.headers.get('content-type'));
+                if (!res.ok) throw new Error(`Error ${res.status}`);
                 return res.json();
             })
             .then(data => {
-                // La respuesta puede ser: array directo, o {data: array}, o un solo objeto
+                console.log('[Blog] Raw data:', JSON.stringify(data).substring(0, 500));
                 let rawPosts = [];
                 if (Array.isArray(data)) {
                     rawPosts = data;
@@ -824,17 +827,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (data && data.properties_value) {
                     rawPosts = [data];
                 }
+                console.log('[Blog] Posts encontrados:', rawPosts.length);
 
-                // Transformar cada post del formato Notion al formato del blog
                 allPosts = rawPosts
                     .map(item => transformNotionPost(item))
-                    .filter(post => post.title);  // solo artículos con título
+                    .filter(post => post.title);
 
-                console.log(`Blog: ${allPosts.length} artículos cargados desde Notion`);
+                console.log(`[Blog] ${allPosts.length} artículos transformados`);
                 filterPosts();
             })
             .catch(err => {
-                console.warn('Blog: webhook no disponible, usando artículos de fallback.', err);
+                console.error('[Blog] ERROR:', err.message);
                 allPosts = FALLBACK_POSTS;
                 filterPosts();
             });
