@@ -288,7 +288,7 @@ En `contacto.html`:
 ### Configurar FormSubmit.co
 
 1. Ve a [formsubmit.co](https://formsubmit.co)
-2. Regístrate con `flujobase.digital@gmail.com`
+2. Regístrate con `solucionesdigitalesflujobase@gmail.com`
 3. En tu primer envío, recibirás un email de confirmación
 4. Haz clic en el enlace para activar tu cuenta
 5. En **Dashboard > Settings**, configura:
