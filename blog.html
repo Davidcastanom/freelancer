@@ -271,54 +271,40 @@
     <!-- ==========================================
          MODAL / POPUP PARA PREVISUALIZAR ARTÍCULOS
          ==========================================
-         Este modal se abre automáticamente al hacer clic en un artículo.
-         Muestra el contenido embebido de Notion en un iframe.
+         Muestra una vista previa completa del artículo:
+         imagen cover, título, extracto, tags y botón para leer en Notion.
 
-         ✋ LO QUE NECESITA TU CUENTA DE NOTION:
-         Para que el iframe funcione, tu página de Notion debe ser "Share to web":
-         1. Abre la página del artículo en Notion
-         2. Click en "Share" (arriba a la derecha)
-         3. Activa "Share to web"
-         4. Copia el link y pégalo en la propiedad "ContentURL" de la base de datos
-
-         Sin este paso, el modal mostrará la página de login de Notion en vez
-         del contenido del artículo.
+         ✋ CAMPOS QUE ALIMENTAN ESTE MODAL (desde Notion):
+         - Cover: imagen de portada del artículo
+         - Title: título del artículo
+         - Category: categoría (IA, Automatización, etc.)
+         - Date: fecha de publicación
+         - Excerpt: resumen breve del artículo
+         - Multi-select: tags/etiquetas
+         - ContentURL: link a la página completa en Notion
          ========================================== -->
     <div class="blog-modal" id="blog-modal">
         <div class="blog-modal-backdrop" id="blog-modal-backdrop"></div>
         <div class="blog-modal-container">
-            <div class="blog-modal-header">
-                <div class="blog-modal-meta">
-                    <span class="category-pill" id="modal-category"></span>
-                    <time id="modal-date"></time>
-                </div>
-                <h2 id="modal-title"></h2>
-                <p id="modal-excerpt"></p>
+            <!-- Cover image -->
+            <div class="blog-modal-cover" id="modal-cover-wrap">
+                <img id="modal-cover-img" src="" alt="" loading="lazy">
+                <span class="category-pill" id="modal-category"></span>
             </div>
+            <!-- Content -->
             <div class="blog-modal-body">
-                <!-- Loading spinner mientras carga el iframe -->
-                <div class="blog-modal-loading" id="modal-loading">
-                    <div class="spinner"></div>
-                    <p>Cargando artículo...</p>
+                <div class="blog-modal-info">
+                    <div class="blog-modal-meta">
+                        <time id="modal-date"></time>
+                    </div>
+                    <h2 id="modal-title"></h2>
+                    <p id="modal-excerpt"></p>
+                    <div class="blog-modal-tags" id="modal-tags"></div>
                 </div>
-
-                <iframe id="modal-iframe" src="" frameborder="0" title="Vista previa del artículo" style="display:none;"></iframe>
-
-                <!-- Fallback si el iframe no carga (Notion bloquea embedding) -->
-                <div class="blog-modal-fallback" id="modal-fallback">
-                    <i class="fas fa-book-open"></i>
-                    <h3>Artículo disponible en Notion</h3>
-                    <p>El contenido completo de este artículo se encuentra en Notion. Haz clic en el botón para leerlo.</p>
-                    <a id="modal-fallback-link" href="#" target="_blank" rel="noopener noreferrer" class="btn">
-                        <i class="fas fa-external-link-alt"></i> Leer en Notion
-                    </a>
-                </div>
-
-                <div id="modal-content" class="blog-modal-content" style="display:none;"></div>
             </div>
             <div class="blog-modal-footer">
-                <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-sm">
-                    <i class="fas fa-external-link-alt"></i> Abrir en Notion
+                <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="btn">
+                    <i class="fas fa-book-open"></i> Leer Artículo Completo
                 </a>
                 <button id="modal-close" class="btn btn-outline btn-sm" aria-label="Cerrar artículo">
                     <i class="fas fa-times"></i> Cerrar

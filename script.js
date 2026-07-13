@@ -536,15 +536,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const blogModal = document.getElementById('blog-modal');
     const modalBackdrop = document.getElementById('blog-modal-backdrop');
     const modalClose = document.getElementById('modal-close');
-    const modalIframe = document.getElementById('modal-iframe');
     const modalTitle = document.getElementById('modal-title');
     const modalExcerpt = document.getElementById('modal-excerpt');
     const modalDate = document.getElementById('modal-date');
     const modalCategory = document.getElementById('modal-category');
     const modalLink = document.getElementById('modal-link');
-    const modalLoading = document.getElementById('modal-loading');
-    const modalFallback = document.getElementById('modal-fallback');
-    const modalFallbackLink = document.getElementById('modal-fallback-link');
+    const modalCoverImg = document.getElementById('modal-cover-img');
+    const modalCoverWrap = document.getElementById('modal-cover-wrap');
+    const modalTags = document.getElementById('modal-tags');
 
     // --- Estado actual ---
     let allPosts = [];
@@ -714,7 +713,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Abre el modal de vista previa del artículo.
-     * Carga la URL de Notion en un iframe para vista embebida.
+     * Muestra cover, título, excerpt, tags y botón para leer en Notion.
      * @param {Object} post - Artículo a previsualizar
      */
     function openModal(post) {
@@ -722,6 +721,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cat = CATEGORY_MAP[post.category] || { label: post.category, cssClass: 'cat-ia' };
 
+        // Cover image
+        if (post.cover && post.cover !== 'https://via.placeholder.com/800x450.png?text=Articulo') {
+            modalCoverImg.src = post.cover;
+            modalCoverImg.alt = post.title;
+            modalCoverWrap.style.display = 'block';
+        } else {
+            modalCoverWrap.style.display = 'none';
+        }
+
+        // Info
         modalTitle.textContent = post.title;
         modalExcerpt.textContent = post.excerpt || '';
         modalDate.textContent = post.dateFormatted || post.date;
@@ -729,44 +738,23 @@ document.addEventListener('DOMContentLoaded', () => {
         modalCategory.textContent = cat.label;
         modalCategory.className = `category-pill ${cat.cssClass}`;
 
+        // Tags
+        if (modalTags && post.tags && post.tags.length > 0) {
+            modalTags.innerHTML = post.tags.map(t =>
+                `<span class="tag">${sanitizeText(t)}</span>`
+            ).join('');
+            modalTags.style.display = 'flex';
+        } else if (modalTags) {
+            modalTags.innerHTML = '';
+            modalTags.style.display = 'none';
+        }
+
+        // Link a Notion
         if (post.contentUrl && post.contentUrl !== '#') {
-            // Mostrar loading, ocultar iframe y fallback
-            if (modalLoading) modalLoading.style.display = 'block';
-            modalIframe.style.display = 'none';
-            if (modalFallback) modalFallback.style.display = 'none';
             modalLink.href = post.contentUrl;
             modalLink.style.display = '';
-            if (modalFallbackLink) modalFallbackLink.href = post.contentUrl;
-
-            // Timeout: si en 5 segundos el iframe no carga, mostrar fallback
-            const fallbackTimeout = setTimeout(() => {
-                if (modalLoading) modalLoading.style.display = 'none';
-                modalIframe.style.display = 'none';
-                if (modalFallback) modalFallback.style.display = 'flex';
-            }, 5000);
-
-            // Cuando el iframe carga correctamente
-            modalIframe.onload = () => {
-                clearTimeout(fallbackTimeout);
-                if (modalLoading) modalLoading.style.display = 'none';
-                modalIframe.style.display = 'block';
-                if (modalFallback) modalFallback.style.display = 'none';
-            };
-
-            // Si el iframe falla (CORS, etc.)
-            modalIframe.onerror = () => {
-                clearTimeout(fallbackTimeout);
-                if (modalLoading) modalLoading.style.display = 'none';
-                modalIframe.style.display = 'none';
-                if (modalFallback) modalFallback.style.display = 'flex';
-            };
-
-            modalIframe.src = post.contentUrl;
         } else {
-            modalIframe.style.display = 'none';
             modalLink.style.display = 'none';
-            if (modalLoading) modalLoading.style.display = 'none';
-            if (modalFallback) modalFallback.style.display = 'none';
         }
 
         blogModal.classList.add('active');
@@ -779,10 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeModal() {
         if (!blogModal) return;
         blogModal.classList.remove('active');
-        modalIframe.src = '';
-        modalIframe.style.display = 'none';
-        if (modalLoading) modalLoading.style.display = 'none';
-        if (modalFallback) modalFallback.style.display = 'none';
+        modalCoverImg.src = '';
         document.body.style.overflow = '';
     }
 
