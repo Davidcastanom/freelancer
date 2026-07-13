@@ -451,6 +451,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Excerpt
         const excerpt = p.Excerpt || p.excerpt || '';
 
+        // Description (descripción breve para enganchar al lector)
+        const description = p.Description || p.description || '';
+
         // ContentURL
         let contentUrl = '#';
         if (p.ContentURL) {
@@ -463,6 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: title.replace(/\s+/g, '-').toLowerCase().substring(0, 50),
             title: title,
             excerpt: excerpt,
+            description: description,
             cover: cover || 'https://via.placeholder.com/800x450.png?text=Articulo',
             date: date,
             dateFormatted: dateFormatted || date,
@@ -543,6 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalLink = document.getElementById('modal-link');
     const modalCoverImg = document.getElementById('modal-cover-img');
     const modalCoverWrap = document.getElementById('modal-cover-wrap');
+    const modalDescription = document.getElementById('modal-description');
     const modalTags = document.getElementById('modal-tags');
 
     // --- Estado actual ---
@@ -728,6 +733,19 @@ document.addEventListener('DOMContentLoaded', () => {
             modalCoverWrap.style.display = 'block';
         } else {
             modalCoverWrap.style.display = 'none';
+        }
+
+        // Descripción — debajo de la cover, engancha al lector
+        if (modalDescription) {
+            if (post.description) {
+                modalDescription.textContent = post.description;
+                modalDescription.style.display = 'block';
+            } else if (post.excerpt) {
+                modalDescription.textContent = post.excerpt;
+                modalDescription.style.display = 'block';
+            } else {
+                modalDescription.style.display = 'none';
+            }
         }
 
         // Info

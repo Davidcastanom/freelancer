@@ -1318,6 +1318,16 @@ header.scrolled {
     left: 16px;
 }
 
+/* Descripción del artículo — debajo de la cover */
+.blog-modal-description {
+    padding: 1.25rem 2rem 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--color-texto-principal);
+    font-style: italic;
+    border-bottom: 1px solid var(--color-borde);
+}
+
 /* Body del modal */
 .blog-modal-body {
     padding: 2rem;
@@ -1939,6 +1949,11 @@ footer {
 
     .blog-modal-cover {
         height: 200px;
+    }
+
+    .blog-modal-description {
+        padding: 1rem 1.25rem 0;
+        font-size: 0.95rem;
     }
 
     .blog-modal-body {
