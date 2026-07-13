@@ -452,7 +452,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const excerpt = p.Excerpt || p.excerpt || '';
 
         // Description (descripción breve para enganchar al lector)
-        const description = p.Description || p.description || '';
+        // Viene como rich text array: [{plain_text: "..."}]
+        let description = '';
+        const descRaw = p['Descripción'] || p.Description || p.description || p.descripcion;
+        if (Array.isArray(descRaw)) {
+            description = descRaw.map(t => t.plain_text || '').join('');
+        } else if (typeof descRaw === 'string') {
+            description = descRaw;
+        }
 
         // ContentURL
         let contentUrl = '#';
