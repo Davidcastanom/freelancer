@@ -189,9 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
             */
 
             // ✋ CAMBIA ESTO: URL del endpoint (Make directo o Cloudflare Worker)
-            const USE_PROXY = false;  // ← cámbialo a true cuando configures Cloudflare
+            const USE_PROXY = true;  // ← cámbialo a true cuando configures Cloudflare
             const FETCH_URL_DIRECT = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
-            const FETCH_URL_PROXY = 'https://TU-WORKER.tu-usuario.workers.dev';  // ← pega tu URL de Worker aquí
+            const FETCH_URL_PROXY = 'https://freelancer.esteban7005808.workers.dev';  // ← pega tu URL de Worker aquí
             const FETCH_URL = USE_PROXY ? FETCH_URL_PROXY : FETCH_URL_DIRECT;
 
             fetch(FETCH_URL, {
@@ -374,7 +374,102 @@ document.addEventListener('DOMContentLoaded', () => {
     - O subir a imgur.com y pegar el link directo
     ===========================================================
     */
-    const BLOG_WEBHOOK_URL = '';  // ← PEGAR AQUÍ TU URL DE MAKE
+    const BLOG_WEBHOOK_URL = 'https://hook.us2.make.com/5uxepuwmh43znbygrmukpxz3q6qdcfku';  // ← TU WEBHOOK DE MAKE
+
+    // --- Transformación de formato Notion → formato blog ---
+    // ✋ NO MODIFIQUES esto a menos que cambies la estructura de tu database en Notion
+    // Convierte el formato anidado de Notion al formato plano que espera el blog:
+    //   Notion: { properties_value: { Title: [{plain_text: "..."}], Category: {name: "IA"}, ... } }
+    //   Blog:   { id: "...", title: "...", category: "ia", cover: "https://...", ... }
+    const CATEGORY_NAME_MAP = {
+        'IA': 'ia',
+        'Automatización': 'automatizacion',
+        'Desarrollo': 'desarrollo',
+        'Datos': 'datos',
+        'Consultoría': 'consultoria'
+    };
+
+    const MONTH_NAMES = {
+        1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril',
+        5: 'Mayo', 6: 'Junio', 7: 'Julio', 8: 'Agosto',
+        9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+    };
+
+    function transformNotionPost(item) {
+        const p = item.properties_value || item;
+
+        // Title: puede ser string o array de rich text
+        let title = '';
+        if (Array.isArray(p.Title)) {
+            title = p.Title.map(t => t.plain_text || '').join('');
+        } else if (typeof p.Title === 'string') {
+            title = p.Title;
+        }
+
+        // Category: puede ser {name: "IA"} o string
+        let categoryRaw = '';
+        if (p.Category && typeof p.Category === 'object') {
+            categoryRaw = p.Category.name || '';
+        } else {
+            categoryRaw = String(p.Category || '');
+        }
+        const category = CATEGORY_NAME_MAP[categoryRaw] || categoryRaw.toLowerCase();
+
+        // Tags: Multi-select array o Tags array
+        const tagsRaw = p['Multi-select'] || p.Tags || p.tags || [];
+        const tags = Array.isArray(tagsRaw)
+            ? tagsRaw.map(t => typeof t === 'string' ? t : t.name || '')
+            : [];
+
+        // Date: {start: "YYYY-MM-DD"} o string
+        let date = '';
+        let dateFormatted = '';
+        if (p.Date && typeof p.Date === 'object') {
+            date = p.Date.start || '';
+        } else if (typeof p.Date === 'string') {
+            date = p.Date;
+        }
+        if (date) {
+            const parts = date.split('-');
+            if (parts.length === 3) {
+                const month = parseInt(parts[1]);
+                dateFormatted = `${parseInt(parts[2])} ${MONTH_NAMES[month] || parts[1]} ${parts[0]}`;
+            }
+        }
+
+        // Cover: array de archivos o string
+        let cover = '';
+        if (Array.isArray(p.Cover) && p.Cover.length > 0) {
+            cover = p.Cover[0].file?.url || p.Cover[0].url || '';
+        } else if (typeof p.Cover === 'string') {
+            cover = p.Cover;
+        }
+        // ⚠️ Las URLs de Cover de Notion son temporales (expiran en ~1 hora).
+        // Para producción, sube las imágenes a Cloudinary o usa un endpoint permanente.
+
+        // Excerpt
+        const excerpt = p.Excerpt || p.excerpt || '';
+
+        // ContentURL
+        let contentUrl = '#';
+        if (p.ContentURL) {
+            contentUrl = p.ContentURL;
+        } else if (p.contentUrl) {
+            contentUrl = p.contentUrl;
+        }
+
+        return {
+            id: title.replace(/\s+/g, '-').toLowerCase().substring(0, 50),
+            title: title,
+            excerpt: excerpt,
+            cover: cover || 'https://via.placeholder.com/800x450.png?text=Articulo',
+            date: date,
+            dateFormatted: dateFormatted || date,
+            category: category,
+            tags: tags,
+            contentUrl: contentUrl
+        };
+    }
 
 
     // --- ARTÍCULOS DE EJEMPLO (se muestran si no tienes Make configurado) ---
@@ -705,6 +800,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- Cargar artículos: webhook o fallback ---
         if (BLOG_WEBHOOK_URL) {
             // Fetch desde Make → Notion
+            // ✋ La respuesta de Notion viene en formato anidado (properties_value)
+            // La función transformNotionPost() la convierte al formato plano del blog
             fetch(BLOG_WEBHOOK_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -714,8 +811,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!res.ok) throw new Error('Error al cargar artículos');
                 return res.json();
             })
-            .then(posts => {
-                allPosts = Array.isArray(posts) ? posts : [];
+            .then(data => {
+                // La respuesta puede ser: array directo, o {data: array}, o un solo objeto
+                let rawPosts = [];
+                if (Array.isArray(data)) {
+                    rawPosts = data;
+                } else if (data && Array.isArray(data.data)) {
+                    rawPosts = data.data;
+                } else if (data && data.properties_value) {
+                    rawPosts = [data];
+                }
+
+                // Transformar cada post del formato Notion al formato del blog
+                allPosts = rawPosts
+                    .map(item => transformNotionPost(item))
+                    .filter(post => post.title);  // solo artículos con título
+
+                console.log(`Blog: ${allPosts.length} artículos cargados desde Notion`);
                 filterPosts();
             })
             .catch(err => {
