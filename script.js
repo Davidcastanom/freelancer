@@ -798,14 +798,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // --- Cargar artículos: webhook o fallback ---
+        // ✋ IMPORTANTE: El fetch va a través del Worker proxy para evitar CORS.
+        // El navegador no puede hacer fetch directo a hook.us2.make.com porque
+        // Make no envía el header Access-Control-Allow-Origin para tu dominio.
+        // El Worker recibe la petición, la reenvía a Make server-side (sin CORS),
+        // y te devuelve los datos.
         if (BLOG_WEBHOOK_URL) {
-            // Fetch desde Make → Notion
-            // ✋ La respuesta de Notion viene en formato anidado (properties_value)
-            // La función transformNotionPost() la convierte al formato plano del blog
-            fetch(BLOG_WEBHOOK_URL, {
+            const blogFetchUrl = USE_PROXY ? FETCH_URL_PROXY : BLOG_WEBHOOK_URL;
+            fetch(blogFetchUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'getPosts' })
+                body: JSON.stringify({ action: 'getPosts', webhookUrl: BLOG_WEBHOOK_URL })
             })
             .then(res => {
                 if (!res.ok) throw new Error('Error al cargar artículos');
@@ -892,27 +895,34 @@ document.addEventListener('DOMContentLoaded', () => {
 ✋ CÓDIGO DEL WORKER DE CLOUDFLARE — PROXY SEGURO PARA MAKE
 ===========================================================================
 
-Si elegiste la OPCIÓN B (proxy seguro), necesitas crear un Worker
-en Cloudflare. Este archivo documenta el código completo del Worker.
+ Tu Worker actual maneja solo el formulario. Ahora necesita manejar
+ TAMBIÉN el blog (proxy contra CORS).
 
-PASOS:
-1. Ve a https://dash.cloudflare.com → crea cuenta gratis
-2. Menú lateral → Workers & Pages → Create Worker
-3. Nombre: "flujo-base-proxy" → Create Worker
-4. Haz clic en "Edit code" → borra todo lo que haya
-5. Pega EL CÓDIGO DE ABAJO (todo lo que está entre las líneas)
-6. Haz clic en "Deploy"
-7. Copia la URL que te da (algo como: flujo-base-proxy.tu-usuario.workers.dev)
-8. Ve a script.js → busca USE_PROXY → cámbialo a true
-9. Ve a script.js → busca FETCH_URL_PROXY → pega tu URL del Worker
+ ACTUALIZA TU WORKER en Cloudflare con este código completo:
+
+ PASOS:
+ 1. Ve a https://dash.cloudflare.com → Workers & Pages → tu Worker
+ 2. Haz clic en "Edit code"
+ 3. Borra todo el código anterior
+ 4. Pega EL CÓDIGO DE ABAJO
+ 5. Haz clic en "Deploy"
 
 ===========================================================================
 // INICIO DEL CÓDIGO DEL WORKER — copia desde aquí
 ===========================================================================
 
-const MAKE_WEBHOOK_URL = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
+const MAKE_FORM_WEBHOOK = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
+const MAKE_BLOG_WEBHOOK = 'https://hook.us2.make.com/5uxepuwmh43znbygrmukpxz3q6qdcfku';
 
-const RATE_LIMIT = 5;
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Content-Type': 'application/json'
+};
+
+// Rate limiting
+const RATE_LIMIT = 10;
 const RATE_WINDOW = 60 * 1000;
 const ipLog = new Map();
 
@@ -926,60 +936,71 @@ function isRateLimited(ip) {
   return false;
 }
 
-const FIELD_LIMITS = { name: 100, email: 150, businessType: 50, serviceInterest: 50, message: 2000 };
-
 function sanitize(str) {
   return String(str).replace(/<[^>]*>/g, '').trim();
 }
 
 export default {
   async fetch(request, env) {
+    // CORS preflight
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { status: 204, headers: CORS_HEADERS });
+    }
+
     if (request.method !== 'POST') {
-      return new Response('Method not allowed', { status: 405 });
+      return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405, headers: CORS_HEADERS });
     }
 
     const ip = request.headers.get('cf-connecting-ip') || 'unknown';
     if (isRateLimited(ip)) {
-      return new Response(JSON.stringify({ error: 'Too many requests' }), { status: 429, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: 'Too many requests' }), { status: 429, headers: CORS_HEADERS });
     }
 
     try {
       const body = await request.json();
 
-      // Honeypot
-      if (body._honey && body._honey !== '') {
-        return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+      // ─── BLOG: proxy para evitar CORS ───
+      if (body.action === 'getPosts' && body.webhookUrl) {
+        const res = await fetch(body.webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'getPosts' })
+        });
+        const data = await res.json();
+        return new Response(JSON.stringify(data), { status: 200, headers: CORS_HEADERS });
       }
 
-      // Anti-bot: mínimo 3 segundos
+      // ─── FORMULARIO: validación + reenvío a Make ───
+      if (body._honey && body._honey !== '') {
+        return new Response(JSON.stringify({ success: true }), { status: 200, headers: CORS_HEADERS });
+      }
+
       const ts = parseInt(body._timestamp || '0');
       if (ts && (Date.now() - ts) < 3000) {
-        return new Response(JSON.stringify({ error: 'Too fast' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+        return new Response(JSON.stringify({ error: 'Too fast' }), { status: 400, headers: CORS_HEADERS });
       }
 
-      // Sanitizar y limitar campos
+      const FIELD_LIMITS = { name: 100, email: 150, businessType: 50, serviceInterest: 50, message: 2000 };
       const clean = {};
       for (const [key, limit] of Object.entries(FIELD_LIMITS)) {
         clean[key] = sanitize(body[key] || '').substring(0, limit);
       }
 
-      // Validar email
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean.email)) {
-        return new Response(JSON.stringify({ error: 'Invalid email' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+        return new Response(JSON.stringify({ error: 'Invalid email' }), { status: 400, headers: CORS_HEADERS });
       }
 
-      // Reenviar a Make
-      const res = await fetch(MAKE_WEBHOOK_URL, {
+      const res = await fetch(MAKE_FORM_WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(clean)
       });
 
       if (!res.ok) throw new Error('Make failed');
-      return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ success: true }), { status: 200, headers: CORS_HEADERS });
 
     } catch (err) {
-      return new Response(JSON.stringify({ error: 'Internal error' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ error: 'Internal error' }), { status: 500, headers: CORS_HEADERS });
     }
   }
 };
@@ -989,14 +1010,23 @@ export default {
 ===========================================================================
 
 ¿QUÉ HACE ESTE WORKER?
-- Valida que sea POST (bloquea bots que hacen GET)
-- Rate limiting real por IP (5 req/min, no se puede saltar)
-- Detecta honeypot (si _honey tiene valor, descarta)
-- Detecta envíos rápidos (si _timestamp indica < 3 segundos, descarta)
-- Sanitiza todos los textos (elimina tags HTML)
-- Limita longitudes de campos
-- Valida formato de email
-- Reenvía TODO a tu webhook de Make (el webhook nunca se expone)
+
+BLOG (nuevo):
+- Recibe petición del frontend con {action: "getPosts", webhookUrl: "..."}
+- Reenvía a tu webhook de Make server-side (sin CORS)
+- Devuelve los datos al frontend
+
+FORMULARIO (existente):
+- Rate limiting real por IP (10 req/min)
+- Honeypot anti-bot
+- Anti-bot por tiempo (< 3 segundos → descarta)
+- Sanitización de inputs
+- Validación de email
+- Reenvío a Make (webhook nunca expuesto)
+
+CORS:
+- Headers Access-Control-Allow-Origin: * en TODAS las respuestas
+- Maneja preflight OPTIONS correctamente
 
 COSTO: Gratis (plan free: 100,000 requests/día)
 ===========================================================================
