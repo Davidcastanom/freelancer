@@ -84,6 +84,7 @@ El sitio incluye **6 páginas** completamente diseñadas con la paleta oficial d
 - **Cloudflare Worker** — Proxy dual: formulario + blog (evita CORS, oculta webhooks)
 - **Cloudinary** — CDN de imágenes (WebP automático, compresión, cache global)
 - **FormSubmit.co** — Envío de formularios por email con CAPTCHA
+- **Google Sheets** — Almacenamiento de contactos (vía Make: email + fila en hoja de cálculo)
 - **YouTube** — Videos embebidos en casos de éxito
 - **Google Drive** — Videos embebidos con formato `/preview`
 
@@ -131,7 +132,7 @@ El navegador **no puede** hacer fetch directo a `hook.us2.make.com` porque Make 
 3. Fetch al Worker: { name, email, message, _timestamp, _honey }
 4. Worker valida: honeypot, tiempo, rate limit, email, longitudes
 5. Worker reenvía a Make (webhook nunca expuesto)
-6. Make procesa y guarda en CRM/Notion
+6. Make envía email (Gmail) + guarda fila en Google Sheets
 ```
 
 ---
@@ -209,14 +210,6 @@ Al hacer clic en "Leer Artículo" de una card, se abre un modal con este orden:
 5. **Tags** — Etiquetas como pills (campo Multi-select de Notion)
 6. **Botón "Leer Artículo"** — Abre la página de Notion en ventana emergente (popup 900×700px)
 
-### Limitación: iframe de Notion
-
-**Notion bloquea el embebido en iframes** por su política de seguridad (CSP `frame-ancestors: DENY`). Por esta razón, el modal **no** muestra el contenido de Notion dentro de la página. En su lugar:
-
-- Muestra la imagen cover + metadata del artículo
-- El botón "Leer Artículo" abre la página de Notion en una **ventana emergente** separada
-- Si en el futuro Notion permite iframes, se puede reactivar la función embebida
-
 ### Cover image de Notion
 
 Las URLs de las imágenes de Cover en Notion son **temporales** (expiran en ~1 hora). Para producción se recomienda:
@@ -268,6 +261,13 @@ Para que el botón "Leer Artículo" funcione:
 
 ## Configuración de Make (Webhook)
 
+### Escenarios activos
+
+| Escenario | Webhook | Qué hace |
+|-----------|---------|----------|
+| **Blog** | `https://hook.us2.make.com/5uxepuwmh43znbygrmukpxz3q6qdcfku` | Consulta Notion → devuelve artículos |
+| **Contacto** | `https://hook.us2.make.com/2cxiof5fbtiu9k5233hw1tk71mxyibc4` | Recibe formulario → envía email + guarda en Google Sheets |
+
 ### Paso 1: Crear el Scenario
 
 1. Ve a [make.com](https://make.com) → crea cuenta gratis
@@ -296,6 +296,29 @@ Para que el botón "Leer Artículo" funcione:
 
 1. Haz clic en **"ON"** (esquina inferior izquierda)
 2. El Scenario ahora escucha peticiones en la URL del webhook
+
+### Configuración de fecha (zona horaria Colombia)
+
+En el módulo de Google Sheets del Scenario de contacto, configura el campo **Fecha** con:
+
+```
+{{formatDate(now; "DD/MM/YYYY HH:mm"; "America/Bogota")}}
+```
+
+Esto almacena la fecha en zona horaria de Colombia (no la del servidor de Make).
+
+### Google Sheets (contacto)
+
+El Scenario de contacto guarda cada envío como fila en Google Sheets:
+
+| Columna | Descripción |
+|---------|-------------|
+| Fecha | `DD/MM/YYYY HH:mm` (America/Bogota) |
+| Nombre | Nombre completo del contacto |
+| Email | Correo electrónico |
+| Tipo de Negocio | Emprendedor, Freelancer, Empresa, Startup, Otra |
+| Servicio | IA, Automatización, Desarrollo, Datos, Consultoría, No estoy seguro |
+| Mensaje | Texto del mensaje (máx. 2000 caracteres) |
 
 ### Paso 4: Conectar en el código
 
@@ -518,9 +541,10 @@ Los hashes SHA-512 verifican que los archivos CDN no fueron modificados:
 | DOMPurify 3.0.6 | Sanitización de HTML (prevención XSS) |
 | Cloudinary | CDN de imágenes (WebP automático, compresión, cache) |
 | Notion | Base de datos del blog (CMS headless vía Make) |
-| Make (Integromat) | Webhooks para blog y formulario |
+| Make (Integromat) | Webhooks para blog y formulario (email + Google Sheets) |
 | Cloudflare Workers | Proxy dual: blog + formulario (CORS + seguridad) |
 | FormSubmit.co | Envío de formularios por email con CAPTCHA |
+| Google Sheets | Almacenamiento de contactos (vía Make) |
 | Google Fonts | Poppins + Space Grotesk |
 | Font Awesome 6.4 | Iconos |
 
@@ -628,7 +652,7 @@ En `casos-exito.html`, copia un bloque `<div class="portfolio-item">` y editalo.
 ### Flujo del formulario
 
 ```
-Usuario → Formulario HTML → Validación JS → Cloudflare Worker → Make → Email (FormSubmit.co)
+Usuario → Formulario HTML → Validación JS → Cloudflare Worker → Make → Email (Gmail) + Google Sheets
                                     │
                                     ├── Honeypot (anti-bot)
                                     ├── Timestamp (anti-bot: >= 3 seg)
@@ -641,8 +665,11 @@ Usuario → Formulario HTML → Validación JS → Cloudflare Worker → Make �
 
 1. **Email**: `solucionesdigitalesflujobase@gmail.com` (ofuscado con data-attributes)
 2. **FormSubmit.co**: CAPTCHA habilitado, email en campo hidden `_cc`
-3. **Make webhook**: `https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb`
+3. **Make webhook (contacto)**: `https://hook.us2.make.com/2cxiof5fbtiu9k5233hw1tk71mxyibc4`
 4. **Worker proxy**: `https://frelancer-proxy.esteban7005808.workers.dev`
+5. **WhatsApp**: `+57 3016844364` (link directo en sección de contacto)
+6. **Google Sheets**: Make guarda cada envío como fila (Fecha, Nombre, Email, Tipo de Negocio, Servicio, Mensaje)
+7. **Zona horaria**: Fechas almacenadas en `America/Bogota` (configurado en Make con `formatDate(now; "DD/MM/YYYY HH:mm"; "America/Bogota")`)
 
 ### Cambiar el email
 
