@@ -1318,48 +1318,36 @@ header.scrolled {
     left: 16px;
 }
 
-/* Descripción del artículo — debajo de la cover */
-.blog-modal-description {
-    padding: 1.25rem 2rem 0;
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: var(--color-texto-principal);
-    font-style: italic;
-    border-bottom: 1px solid var(--color-borde);
-}
-
 /* Body del modal */
 .blog-modal-body {
-    padding: 2rem;
+    padding: 1.5rem 2rem;
 }
 
 .blog-modal-info {
     max-width: 100%;
 }
 
-.blog-modal-meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
-}
-
-.blog-modal-meta time {
+/* Fecha */
+.blog-modal-date {
     font-size: 0.85rem;
     color: var(--color-texto-secundario);
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
+/* Título */
 .blog-modal-body h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
     line-height: 1.3;
 }
 
-.blog-modal-body p {
-    color: var(--color-texto-secundario);
+/* Descripción breve */
+.blog-modal-description {
     font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    color: var(--color-texto-secundario);
+    margin-bottom: 1rem;
 }
 
 /* Tags dentro del modal */
@@ -1367,7 +1355,6 @@ header.scrolled {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 0.5rem;
 }
 
 .blog-modal-tags .tag {
@@ -1377,14 +1364,6 @@ header.scrolled {
     border-radius: 20px;
     font-size: 0.8rem;
     border: 1px solid var(--color-borde);
-}
-
-.blog-modal-content {
-    padding: 1.5rem 2rem;
-    overflow-y: auto;
-    max-height: 50vh;
-    color: var(--color-texto-principal);
-    line-height: 1.8;
 }
 
 .blog-modal-footer {

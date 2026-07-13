@@ -541,13 +541,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBackdrop = document.getElementById('blog-modal-backdrop');
     const modalClose = document.getElementById('modal-close');
     const modalTitle = document.getElementById('modal-title');
-    const modalExcerpt = document.getElementById('modal-excerpt');
     const modalDate = document.getElementById('modal-date');
-    const modalCategory = document.getElementById('modal-category');
     const modalLink = document.getElementById('modal-link');
     const modalCoverImg = document.getElementById('modal-cover-img');
     const modalCoverWrap = document.getElementById('modal-cover-wrap');
     const modalDescription = document.getElementById('modal-description');
+    const modalTags = document.getElementById('modal-tags');
     const modalTags = document.getElementById('modal-tags');
 
     // --- Estado actual ---
@@ -735,7 +734,14 @@ document.addEventListener('DOMContentLoaded', () => {
             modalCoverWrap.style.display = 'none';
         }
 
-        // Descripción — debajo de la cover, engancha al lector
+        // Fecha
+        modalDate.textContent = post.dateFormatted || post.date;
+        modalDate.setAttribute('datetime', post.date);
+
+        // Título
+        modalTitle.textContent = post.title;
+
+        // Descripción breve
         if (modalDescription) {
             if (post.description) {
                 modalDescription.textContent = post.description;
@@ -747,14 +753,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalDescription.style.display = 'none';
             }
         }
-
-        // Info
-        modalTitle.textContent = post.title;
-        modalExcerpt.textContent = post.excerpt || '';
-        modalDate.textContent = post.dateFormatted || post.date;
-        modalDate.setAttribute('datetime', post.date);
-        modalCategory.textContent = cat.label;
-        modalCategory.className = `category-pill ${cat.cssClass}`;
 
         // Tags
         if (modalTags && post.tags && post.tags.length > 0) {
@@ -791,6 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!blogModal) return;
         blogModal.classList.remove('active');
         modalCoverImg.src = '';
+        if (modalDescription) modalDescription.textContent = '';
         document.body.style.overflow = '';
     }
 
