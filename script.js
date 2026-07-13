@@ -749,12 +749,17 @@ document.addEventListener('DOMContentLoaded', () => {
             modalTags.style.display = 'none';
         }
 
-        // Link a Notion
+        // Link a Notion — abre en ventana emergente
         if (post.contentUrl && post.contentUrl !== '#') {
-            modalLink.href = post.contentUrl;
+            modalLink.href = '#';
             modalLink.style.display = '';
+            modalLink.onclick = (e) => {
+                e.preventDefault();
+                window.open(post.contentUrl, 'articulo_notion', 'width=900,height=700,scrollbars=yes,resizable=yes');
+            };
         } else {
             modalLink.style.display = 'none';
+            modalLink.onclick = null;
         }
 
         blogModal.classList.add('active');
