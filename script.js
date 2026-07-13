@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // ✋ CAMBIA ESTO: URL del endpoint (Make directo o Cloudflare Worker)
             const USE_PROXY = true;  // ← cámbialo a true cuando configures Cloudflare
             const FETCH_URL_DIRECT = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
-            const FETCH_URL_PROXY = 'https://freelancer.esteban7005808.workers.dev';  // ← pega tu URL de Worker aquí
+            const FETCH_URL_PROXY = 'https://frelancer-proxy.esteban7005808.workers.dev';  // ← pega tu URL de Worker aquí
             const FETCH_URL = USE_PROXY ? FETCH_URL_PROXY : FETCH_URL_DIRECT;
 
             fetch(FETCH_URL, {
