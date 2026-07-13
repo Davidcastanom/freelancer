@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ✋ CONFIGURACIÓN DEL PROXY — compartida por formulario Y blog
     const USE_PROXY = true;
-    const FETCH_URL_DIRECT = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
+    const FETCH_URL_DIRECT = 'https://hook.us2.make.com/2cxiof5fbtiu9k5233hw1tk71mxyibc4';
     const FETCH_URL_PROXY = 'https://frelancer-proxy.esteban7005808.workers.dev';
 
     // ======================================================================
@@ -965,7 +965,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // INICIO DEL CÓDIGO DEL WORKER — copia desde aquí
 ===========================================================================
 
-const MAKE_FORM_WEBHOOK = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
+const MAKE_FORM_WEBHOOK = 'https://hook.us2.make.com/2cxiof5fbtiu9k5233hw1tk71mxyibc4';
 const MAKE_BLOG_WEBHOOK = 'https://hook.us2.make.com/5uxepuwmh43znbygrmukpxz3q6qdcfku';
 
 const CORS_HEADERS = {
