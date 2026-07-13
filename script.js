@@ -438,10 +438,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Cover: array de archivos o string
+        // Cover: array de archivos, URL externa o string
         let cover = '';
         if (Array.isArray(p.Cover) && p.Cover.length > 0) {
-            cover = p.Cover[0].file?.url || p.Cover[0].url || '';
+            // Tipo file (subido directo a Notion): { file: { url: "..." } }
+            // Tipo external (URL pegada): { external: { url: "..." } }
+            cover = p.Cover[0].file?.url || p.Cover[0].external?.url || p.Cover[0].url || '';
         } else if (typeof p.Cover === 'string') {
             cover = p.Cover;
         }
