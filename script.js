@@ -554,7 +554,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCoverWrap = document.getElementById('modal-cover-wrap');
     const modalDescription = document.getElementById('modal-description');
     const modalTags = document.getElementById('modal-tags');
-    const modalTags = document.getElementById('modal-tags');
 
     // --- Estado actual ---
     let allPosts = [];
