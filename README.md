@@ -709,6 +709,8 @@ https://davidcastanom.github.io/freelancer/
 
 **David Castaño** — Fundador de Flujo Base
 
+Más de 10 años resolviendo problemas reales en producción, logística e inventarios. Hoy aplica esa experiencia para construir soluciones digitales con datos e Inteligencia Artificial. No llegó al mundo tech desde la teoría — llegó desde la operación, sabiendo qué duele y qué funciona. Combina formación en Tecnología en Gestión Administrativa, Análisis de Datos (Ruta Tech / Estud-IA) y desarrollo web propio.
+
 Empresa de transformación digital especializada en Inteligencia Artificial, automatización y desarrollo de soluciones digitales para emprendedores y empresas.
 
 ---
