@@ -14,6 +14,11 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ✋ CONFIGURACIÓN DEL PROXY — compartida por formulario Y blog
+    const USE_PROXY = true;
+    const FETCH_URL_DIRECT = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
+    const FETCH_URL_PROXY = 'https://frelancer-proxy.esteban7005808.workers.dev';
+
     // ======================================================================
     // 1. MENÚ DE NAVEGACIÓN MÓVIL
     // Alterna la clase 'active' en el hamburger y el nav-menu para
@@ -188,10 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ===========================================================
             */
 
-            // ✋ CAMBIA ESTO: URL del endpoint (Make directo o Cloudflare Worker)
-            const USE_PROXY = true;  // ← cámbialo a true cuando configures Cloudflare
-            const FETCH_URL_DIRECT = 'https://hook.us2.make.com/h2vfa8bul4uh13yz5wi1ujqshyl3k4rb';
-            const FETCH_URL_PROXY = 'https://frelancer-proxy.esteban7005808.workers.dev';  // ← pega tu URL de Worker aquí
+            // ✋ CONFIGURACIÓN: usa proxy si USE_PROXY = true
             const FETCH_URL = USE_PROXY ? FETCH_URL_PROXY : FETCH_URL_DIRECT;
 
             fetch(FETCH_URL, {
@@ -806,7 +808,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // y te devuelve los datos.
         if (BLOG_WEBHOOK_URL) {
             const blogFetchUrl = USE_PROXY ? FETCH_URL_PROXY : BLOG_WEBHOOK_URL;
-            console.log('[Blog] USE_PROXY:', USE_PROXY, '| Fetch URL:', blogFetchUrl);
+            console.log('[Blog] Fetch URL:', blogFetchUrl, '| USE_PROXY:', USE_PROXY);
             fetch(blogFetchUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
