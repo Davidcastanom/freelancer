@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const serviceInterest = sanitizeText(document.getElementById('service-interest')?.value || '');
             const message = sanitizeText(document.getElementById('message')?.value.trim() || '');
 
-            if (name === '' || email === '' || message === '') {
+            if (name === '' || email === '' || businessType === '' || serviceInterest === '' || message === '') {
                 showMessage('Por favor, completa todos los campos obligatorios.', 'error');
                 return;
             }
